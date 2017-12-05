@@ -6,7 +6,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -23,11 +26,18 @@ public class GameScreen implements Screen {
     private Rectangle pony;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
+    private Animation animation;
+    private TextureAtlas poniAtlas;
+    private float timePassed = 0;
+
 
     public GameScreen(final MainLauncher game) {
         this.game = game;
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         ponyImage = new Texture(Gdx.files.internal("core/assets/poninkuvia/ponisprite.png"));
+
+        poniAtlas = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
+        animation = new Animation(1/30f,poniAtlas.getRegions());
 
         //Ikkunan koko määritelty
         camera = new OrthographicCamera();
@@ -70,8 +80,9 @@ public class GameScreen implements Screen {
 
             //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
+
         game.batch.begin();
-        game.batch.draw(ponyImage, pony.x, pony.y);
+        game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed,true), pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
@@ -81,7 +92,7 @@ public class GameScreen implements Screen {
         //PONI LIIKKUU! //////////////////////////////Tämä numero kertoo nopeuden -Kalle
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) pony.x -= 400* Gdx.graphics.getDeltaTime();
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) pony.x += 400* Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) pony.y += 400* Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) timePassed = pony.y += 400* Gdx.graphics.getDeltaTime();
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) pony.y -= 400* Gdx.graphics.getDeltaTime();
 
         //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
