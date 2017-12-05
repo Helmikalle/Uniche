@@ -18,33 +18,33 @@ public class GameScreen implements Screen {
     final MainLauncher game;
     SpriteBatch batch;
     Texture cupcakeimg;
-    private Texture bucketImage;
+    private Texture ponyImage;
     private OrthographicCamera camera;
-    private Rectangle bucket;
+    private Rectangle pony;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
 
     public GameScreen(final MainLauncher game) {
         this.game = game;
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
-        bucketImage = new Texture(Gdx.files.internal("core/assets/poninkuvia/yksittainenponi.png"));
+        ponyImage = new Texture(Gdx.files.internal("core/assets/poninkuvia/ponisprite.png"));
 
         //Ikkunan koko määritelty
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
-        // Ponin koko ja reuna-arvot määritelty
-        bucket = new Rectangle();
-        bucket.x = 800 / 2 - 64 / 2;
-        bucket.y = 0;
-        bucket.width = 32;
-        bucket.height = 32;
+        // Ponin koko ja aloitus sijainti määritelty  -Kalle
+        pony = new Rectangle();
+        pony.x = 800 / 2 - 64 / 2;
+        pony.y = 0;
+        pony.width = 32;
+        pony.height = 32;
 
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
 
     }
-
+        //Randomina spawnaa kuppikakkua ympäriinsä. Ei tule itse peliin -Kalle
     private void spawnRaindrop() {
         Rectangle raindrop = new Rectangle();
         raindrop.x = MathUtils.random(0,800 -150);
@@ -68,34 +68,34 @@ public class GameScreen implements Screen {
 
         camera.update();
 
-
+            //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(bucketImage, bucket.x, bucket.y);
+        game.batch.draw(ponyImage, pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
         }
         game.batch.end();
 
-        //PONI LIIKKUU! //////////////////////////////Tämä numero kertoo nopeuden
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 400* Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += 400* Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) bucket.y += 400* Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) bucket.y -= 400* Gdx.graphics.getDeltaTime();
+        //PONI LIIKKUU! //////////////////////////////Tämä numero kertoo nopeuden -Kalle
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) pony.x -= 400* Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) pony.x += 400* Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) pony.y += 400* Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) pony.y -= 400* Gdx.graphics.getDeltaTime();
 
-        //Asetettu rajat ettei poni mene ulos ruudusta
-        if (bucket.x < 0) bucket.x = 0;
-        if (bucket.x > 800-32 ) bucket.x = 800 - 32;
-        if (bucket.y < 0 ) bucket.y = 0;
-        if (bucket.y > 480 - 200) bucket.y = 480 - 200;
+        //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
+        if (pony.x < 0) pony.x = 0;
+        if (pony.x > 800-32 ) pony.x = 800 - 32;
+        if (pony.y < 0 ) pony.y = 0;
+        if (pony.y > 480 - 200) pony.y = 480 - 200;
 
-
+            // kysely random kuppikakuista ei tule itse peliin - Kalle
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000 && i < 3) spawnRaindrop() ;
         Iterator<Rectangle> iter = raindrops.iterator();
         while(iter.hasNext()){
             Rectangle raindrop = iter.next();
-            if (raindrop.overlaps(bucket)){
+            if (raindrop.overlaps(pony)){
                 iter.remove();
             }
         }
