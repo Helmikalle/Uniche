@@ -5,22 +5,28 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 
+import java.awt.*;
+
+//Luokka on ero
 public class MainMenuScreen implements Screen {
     final MainLauncher game;
-
     OrthographicCamera camera;
+    Texture cupcakeimg;
+    private int currentOption = 0;
+    private String[] options = {
+            "START",
+            "QUIT"};
 
+//
     public MainMenuScreen(final MainLauncher game) {
         this.game = game;
-
+        cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
     }
-
-
-
 
     @Override
     public void show() {
@@ -29,22 +35,49 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(0.2f, 0, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
+        handleInput();
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Welcome to Drop!!! ", 100, 150);
-        game.font.draw(game.batch, "Press Enter to begin!", 100, 100);
+        game.font.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
+        game.font.draw(game.batch, "START", 390, 250);
+        game.font.draw(game.batch, "QUIT", 395, 200);
+
+        changeOption();
         game.batch.end();
+    }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            game.setScreen(new GameScreen(game));
-            dispose();
+    public void changeOption(){
+        if(currentOption == 0){
+            game.batch.draw(cupcakeimg, 340, 235);
+        } else if (currentOption == 1){
+            game.batch.draw(cupcakeimg, 340, 185);
         }
+    }
 
+    public void handleInput() {
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && currentOption < options.length - 1) {
+            currentOption++;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP) && currentOption > 0) {
+            currentOption--;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+            selectOption();
+        }
+    }
+
+    private void selectOption() {
+        if(currentOption == 0) {
+            game.setScreen(new GameScreen(game));
+        }
+        if(currentOption == 1) {
+            System.exit(0);
+        }
     }
 
     @Override
