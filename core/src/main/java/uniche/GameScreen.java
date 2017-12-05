@@ -17,7 +17,7 @@ import java.util.Iterator;
 public class GameScreen implements Screen {
     final MainLauncher game;
     SpriteBatch batch;
-    Texture img;
+    Texture cupcakeimg;
     private Texture bucketImage;
     private OrthographicCamera camera;
     private Rectangle bucket;
@@ -26,7 +26,8 @@ public class GameScreen implements Screen {
 
     public GameScreen(final MainLauncher game) {
         this.game = game;
-        bucketImage = new Texture(Gdx.files.internal("core/assets/pixil-layer-Background(2).png"));
+        cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
+        bucketImage = new Texture(Gdx.files.internal("core/assets/poninkuvia/yksittainenponi.png"));
 
         //Ikkunan koko määritelty
         camera = new OrthographicCamera();
@@ -36,8 +37,8 @@ public class GameScreen implements Screen {
         bucket = new Rectangle();
         bucket.x = 800 / 2 - 64 / 2;
         bucket.y = 0;
-        bucket.width = 200;
-        bucket.height = 200;
+        bucket.width = 32;
+        bucket.height = 32;
 
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
@@ -48,8 +49,8 @@ public class GameScreen implements Screen {
         Rectangle raindrop = new Rectangle();
         raindrop.x = MathUtils.random(0,800 -150);
         raindrop.y = MathUtils.random(0,480 - 200);
-        raindrop.width = 64;
-        raindrop.height = 64;
+        raindrop.width = 32;
+        raindrop.height = 32;
         raindrops.add(raindrop);
         lastDropTime = TimeUtils.nanoTime();
     }
@@ -72,7 +73,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(bucketImage, bucket.x, bucket.y);
         for (Rectangle raindrop: raindrops) {
-            game.batch.draw(bucketImage, raindrop.x, raindrop.y);
+            game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
         }
         game.batch.end();
@@ -85,8 +86,8 @@ public class GameScreen implements Screen {
 
         //Asetettu rajat ettei poni mene ulos ruudusta
         if (bucket.x < 0) bucket.x = 0;
-        if (bucket.x > 800 - 150 ) bucket.x = 800 -150 ;
-        if (bucket.y < -64 ) bucket.y = -64;
+        if (bucket.x > 800-32 ) bucket.x = 800 - 32;
+        if (bucket.y < 0 ) bucket.y = 0;
         if (bucket.y > 480 - 200) bucket.y = 480 - 200;
 
 
@@ -125,6 +126,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose () {
         batch.dispose();
-        img.dispose();
+
     }
 }
