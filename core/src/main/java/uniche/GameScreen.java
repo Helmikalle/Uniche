@@ -131,44 +131,31 @@ public class GameScreen implements Screen {
     public void update(float delta) {
         cameraUpdate(delta);
         inputUpdate(delta);
-        suunta(delta);
     }
 
-    //PONI VAIHTAA SUUNTAA (EHKÄ) tarvitaan atlas mappeja
-    public void suunta (float delta) {
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("vasen");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("oikea");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("ylös");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("alas");
-        }
-    }
 
             //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN
     public void inputUpdate(float delta){
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             pony.x -= 200* Gdx.graphics.getDeltaTime();
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("vasen");
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             pony.x += 200* Gdx.graphics.getDeltaTime();
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("oikea");
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("ylös");
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             pony.y -= 200* Gdx.graphics.getDeltaTime();
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("alas");
         }
 
     }
