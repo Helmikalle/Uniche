@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     private Animation animation;
     private TextureAtlas poniAtlas;
     private float timePassed = 0;
+    private String path = "core/assets/ponijuoksee.atlas";
 
 
 
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
         //Kuvan tuontia -Kalle
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         ponyImage = new Texture(Gdx.files.internal("core/assets/poninkuvia/ponisprite.png"));
-        poniAtlas = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
+        poniAtlas = new TextureAtlas(Gdx.files.internal(path));
         animation = new Animation(3/2f,poniAtlas.getRegions());
 
         //Kameran zoom määritelty
@@ -73,6 +74,10 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
@@ -126,8 +131,31 @@ public class GameScreen implements Screen {
     public void update(float delta) {
         cameraUpdate(delta);
         inputUpdate(delta);
+        suunta(delta);
     }
 
+    //PONI VAIHTAA SUUNTAA (EHKÄ) tarvitaan atlas mappeja
+    public void suunta (float delta) {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("vasen");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("oikea");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("ylös");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            setPath("core/assets/ponijuoksee.atlas");
+            System.out.println("alas");
+        }
+    }
+
+            //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN
     public void inputUpdate(float delta){
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
