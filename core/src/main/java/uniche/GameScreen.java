@@ -31,14 +31,14 @@ public class GameScreen implements Screen {
     private TextureAtlas poniAtlasVasen;
     private TextureAtlas poniAtlasOikea;
     private int cupcakeCounter = 0;
-    private int healthBar = 20;
+    private int healthBar = 1000;
 
     public GameScreen(final MainLauncher game) {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         this.game = game;
 
-        //Kuvan tuontia -Kalle //ALUSTAVA KOODI
+        //Kuvan tuontia -Kalle
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
         poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/paikallaanoleva/PaikkaPoni.atlas"));
@@ -87,13 +87,19 @@ public class GameScreen implements Screen {
             //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        if (healthBar <= 0){
+            game.setScreen(new GameOverScreen(game));}
+
+            //Nää pitäis saada ruutuun kiinni varmaan mielummin ku poniin -Kalle
         game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.x + 170, pony.y + 110);
         game.font.draw(game.batch, String.valueOf(healthBar), pony.x + 170, pony.y + 90);
+
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed,true), pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
         }
+
         game.batch.flush();
         game.batch.end();
 
@@ -105,6 +111,8 @@ public class GameScreen implements Screen {
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
             //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
+                //Pistin vähän lisää healthbariin elämää :D ja lisäsin toiminnallisuuden
+                // et joka keystrokesta lähtee elämää -Kalle
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000 && i < 3) spawnRaindrop() ;
         Iterator<Rectangle> iter = raindrops.iterator();
         while(iter.hasNext()){
@@ -112,8 +120,8 @@ public class GameScreen implements Screen {
             if (raindrop.overlaps(pony)){
                 iter.remove();
                 cupcakeCounter += 5;
-                healthBar = healthBar - 5;
-                if (healthBar == 0){
+                healthBar = healthBar + 100;
+                if (healthBar <= 0){
                     game.setScreen(new GameOverScreen(game));
                 }
 
@@ -144,18 +152,22 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             timePassed = pony.x -= 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasVasen.getRegions());
+            healthBar -= 1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             timePassed = pony.x += 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasOikea.getRegions());
+            healthBar -= 1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasYlos.getRegions());
+            healthBar -= 1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             timePassed = pony.y -= 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasAlas.getRegions());
+            healthBar -= 1;
         }
 
     }
