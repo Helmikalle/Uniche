@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -30,8 +33,6 @@ public class GameScreen implements Screen {
     private TextureAtlas poniAtlasAlas;
     private TextureAtlas poniAtlasVasen;
     private TextureAtlas poniAtlasOikea;
-
-
 
     public GameScreen(final MainLauncher game) {
         float w = Gdx.graphics.getWidth();
