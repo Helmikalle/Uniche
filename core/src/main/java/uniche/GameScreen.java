@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -20,17 +19,17 @@ import java.util.Iterator;
 
 public class GameScreen implements Screen {
     final MainLauncher game;
-    SpriteBatch batch;
     Texture cupcakeimg;
-    private Texture ponyImage;
     private OrthographicCamera camera;
     private Rectangle pony;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
     private Animation animation;
-    private TextureAtlas poniAtlas;
-    private float timePassed = 0;
-    private String path = "core/assets/ponijuoksee.atlas";
+    private float timePassed = 1;
+    private TextureAtlas poniAtlasYlos;
+    private TextureAtlas poniAtlasAlas;
+    private TextureAtlas poniAtlasVasen;
+    private TextureAtlas poniAtlasOikea;
 
 
 
@@ -39,11 +38,13 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         this.game = game;
 
-        //Kuvan tuontia -Kalle
+        //Kuvan tuontia -Kalle //ALUSTAVA KOODI
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
-        ponyImage = new Texture(Gdx.files.internal("core/assets/poninkuvia/ponisprite.png"));
-        poniAtlas = new TextureAtlas(Gdx.files.internal(path));
-        animation = new Animation(3/2f,poniAtlas.getRegions());
+        poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
+        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/paikallaanoleva/PaikkaPoni.atlas"));
+        poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
+        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/ponioikea.atlas"));
+        animation = new Animation(3/2f,poniAtlasYlos.getRegions());
 
         //Kameran zoom määritelty
         camera = new OrthographicCamera();
@@ -76,10 +77,6 @@ public class GameScreen implements Screen {
 
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     @Override
     public void render (float delta) {
         update(Gdx.graphics.getDeltaTime());
@@ -89,21 +86,21 @@ public class GameScreen implements Screen {
 
             //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
-
         game.batch.begin();
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed,true), pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
         }
+        game.batch.flush();
         game.batch.end();
 
 
 
         //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
-        if (pony.x < 0) pony.x = 0;
+        if (pony.x < 0+32) pony.x = 0+32;
         if (pony.x > 800-32 ) pony.x = 800 - 32;
-        if (pony.y < 0 ) pony.y = 0;
+        if (pony.y < 0+32 ) pony.y = 0+32;
         if (pony.y > 480 - 200) pony.y = 480 - 200;
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
@@ -118,6 +115,27 @@ public class GameScreen implements Screen {
 
 
     }
+
+    public void poniAnimaatio() {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            animation = new Animation(3/2f,poniAtlasVasen.getRegions());
+            System.out.println("vasen");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            animation = new Animation(3/2f,poniAtlasOikea.getRegions());
+            System.out.println("oikea");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
+            animation = new Animation(3/2f,poniAtlasYlos.getRegions());
+            System.out.println("ylös");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            animation = new Animation(3/2f,poniAtlasAlas.getRegions());
+            System.out.println("alas");
+        }
+
+    }
+
     //Kamera seuraa ponia -Kalle
     public void cameraUpdate (float delta){
         Vector3 position = camera.position;
@@ -131,31 +149,29 @@ public class GameScreen implements Screen {
     public void update(float delta) {
         cameraUpdate(delta);
         inputUpdate(delta);
+        poniAnimaatio();
     }
 
+    //PONI VAIHTAA SUUNTAA (EHKÄ) tarvitaan atlas mappeja
+    public void suunta (float delta) {
+
+
+    }
 
             //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN
     public void inputUpdate(float delta){
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            pony.x -= 200* Gdx.graphics.getDeltaTime();
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("vasen");
+            timePassed = pony.x -= 200* Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            pony.x += 200* Gdx.graphics.getDeltaTime();
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("oikea");
+            timePassed = pony.x += 200* Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("ylös");
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            pony.y -= 200* Gdx.graphics.getDeltaTime();
-            setPath("core/assets/ponijuoksee.atlas");
-            System.out.println("alas");
+            timePassed = pony.y -= 200* Gdx.graphics.getDeltaTime();
         }
 
     }
@@ -181,7 +197,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose () {
-        batch.dispose();
+        game.batch.dispose();
+
 
 
     }
