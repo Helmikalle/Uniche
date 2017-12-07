@@ -68,7 +68,7 @@ public class MainMenuScreen implements Screen {
             selectOption();
         }
     }
-
+    //Valinnan aiheuttama tapahtuma
     public void selectOption() {
         if(currentOption == 0) {
             game.setScreen(new GameScreen(game));
