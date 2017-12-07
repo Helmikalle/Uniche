@@ -54,8 +54,8 @@ public class GameScreen implements Screen {
         pony = new Rectangle();
         pony.x = 800 / 2 - 64 / 2;
         pony.y = 0;
-        pony.width = 32;
-        pony.height = 32;
+        pony.width = 32/2;
+        pony.height = 32/2;
 
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
@@ -98,9 +98,9 @@ public class GameScreen implements Screen {
 
 
         //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
-        if (pony.x < 0+32) pony.x = 0+32;
+        if (pony.x < 16) pony.x = 16;
         if (pony.x > 800-32 ) pony.x = 800 - 32;
-        if (pony.y < 0+32 ) pony.y = 0+32;
+        if (pony.y < 16 ) pony.y = 16;
         if (pony.y > 480 - 200) pony.y = 480 - 200;
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
