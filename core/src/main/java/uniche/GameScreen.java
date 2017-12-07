@@ -30,8 +30,8 @@ public class GameScreen implements Screen {
     private TextureAtlas poniAtlasAlas;
     private TextureAtlas poniAtlasVasen;
     private TextureAtlas poniAtlasOikea;
-
-
+    private int cupcakeCounter = 0;
+    private int healthBar = 20;
 
     public GameScreen(final MainLauncher game) {
         float w = Gdx.graphics.getWidth();
@@ -87,6 +87,8 @@ public class GameScreen implements Screen {
             //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.x + 170, pony.y + 110);
+        game.font.draw(game.batch, String.valueOf(healthBar), pony.x + 170, pony.y + 90);
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed,true), pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
@@ -95,8 +97,6 @@ public class GameScreen implements Screen {
         game.batch.flush();
         game.batch.end();
 
-
-
         //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
         if (pony.x < 0+32) pony.x = 0+32;
         if (pony.x > 800-32 ) pony.x = 800 - 32;
@@ -104,12 +104,19 @@ public class GameScreen implements Screen {
         if (pony.y > 480 - 200) pony.y = 480 - 200;
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
+            //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000 && i < 3) spawnRaindrop() ;
         Iterator<Rectangle> iter = raindrops.iterator();
         while(iter.hasNext()){
             Rectangle raindrop = iter.next();
             if (raindrop.overlaps(pony)){
                 iter.remove();
+                cupcakeCounter += 5;
+                healthBar = healthBar - 5;
+                if (healthBar == 0){
+                    game.setScreen(new GameOverScreen(game));
+                }
+
             }
         }
 
