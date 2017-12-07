@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     private Array<Rectangle> raindrops;
     private long lastDropTime;
     private Animation animation;
-    private float timePassed = 0;
+    private float timePassed = 1;
     private TextureAtlas poniAtlasYlos;
     private TextureAtlas poniAtlasAlas;
     private TextureAtlas poniAtlasVasen;
@@ -41,9 +41,9 @@ public class GameScreen implements Screen {
         //Kuvan tuontia -Kalle //ALUSTAVA KOODI
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
-        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/poniylos/ponieteen.atlas"));
+        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/paikallaanoleva/PaikkaPoni.atlas"));
         poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
-        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/paikallaanoleva/PaikkaPoni.atlas"));
+        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/ponioikea.atlas"));
         animation = new Animation(3/2f,poniAtlasYlos.getRegions());
 
         //Kameran zoom määritelty
@@ -92,14 +92,15 @@ public class GameScreen implements Screen {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
         }
+        game.batch.flush();
         game.batch.end();
 
 
 
         //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
-        if (pony.x < 0) pony.x = 0;
+        if (pony.x < 0+32) pony.x = 0+32;
         if (pony.x > 800-32 ) pony.x = 800 - 32;
-        if (pony.y < 0 ) pony.y = 0;
+        if (pony.y < 0+32 ) pony.y = 0+32;
         if (pony.y > 480 - 200) pony.y = 480 - 200;
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
@@ -161,16 +162,16 @@ public class GameScreen implements Screen {
     public void inputUpdate(float delta){
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            pony.x -= 200* Gdx.graphics.getDeltaTime();
+            timePassed = pony.x -= 200* Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            pony.x += 200* Gdx.graphics.getDeltaTime();
+            timePassed = pony.x += 200* Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            pony.y -= 200* Gdx.graphics.getDeltaTime();
+            timePassed = pony.y -= 200* Gdx.graphics.getDeltaTime();
         }
 
     }
@@ -197,6 +198,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose () {
         game.batch.dispose();
+
 
 
     }
