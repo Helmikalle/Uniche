@@ -123,26 +123,6 @@ public class GameScreen implements Screen {
 
     }
 
-    public void poniAnimaatio() {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            animation = new Animation(3/2f,poniAtlasVasen.getRegions());
-            System.out.println("vasen");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            animation = new Animation(3/2f,poniAtlasOikea.getRegions());
-            System.out.println("oikea");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            animation = new Animation(3/2f,poniAtlasYlos.getRegions());
-            System.out.println("ylös");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            animation = new Animation(3/2f,poniAtlasAlas.getRegions());
-            System.out.println("alas");
-        }
-
-    }
-
     //Kamera seuraa ponia -Kalle
     public void cameraUpdate (float delta){
         Vector3 position = camera.position;
@@ -156,13 +136,6 @@ public class GameScreen implements Screen {
     public void update(float delta) {
         cameraUpdate(delta);
         inputUpdate(delta);
-        poniAnimaatio();
-    }
-
-    //PONI VAIHTAA SUUNTAA (EHKÄ) tarvitaan atlas mappeja
-    public void suunta (float delta) {
-
-
     }
 
             //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN
@@ -170,15 +143,19 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             timePassed = pony.x -= 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasVasen.getRegions());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             timePassed = pony.x += 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasOikea.getRegions());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasYlos.getRegions());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             timePassed = pony.y -= 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasAlas.getRegions());
         }
 
     }
