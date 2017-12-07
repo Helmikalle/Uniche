@@ -7,10 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-import java.awt.*;
+public class GameOverScreen implements Screen {
 
-//Menu-luokka
-public class MainMenuScreen implements Screen {
     final MainLauncher game;
     OrthographicCamera camera;
     Texture cupcakeimg;
@@ -19,12 +17,12 @@ public class MainMenuScreen implements Screen {
             "START",
             "QUIT"};
 
-//
-    public MainMenuScreen(final MainLauncher game) {
+    public GameOverScreen(final MainLauncher game) {
         this.game = game;
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+
     }
 
     @Override
@@ -42,11 +40,12 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
-        game.font.draw(game.batch, "START", 390, 250);
-        game.font.draw(game.batch, "QUIT", 395, 200);
 
+        game.font.draw(game.batch, "GAME OVER", 335, 300);
+        game.font.draw(game.batch, "NEW GAME", 390, 250);
+        game.font.draw(game.batch, "QUIT", 395, 200);
         changeOption();
+
         game.batch.end();
     }
 
