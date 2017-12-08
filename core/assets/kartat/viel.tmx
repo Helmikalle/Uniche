@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" source="viel.tsx"/>
- <layer name="Tile Layer 1" width="50" height="50">
-  <data encoding="base64" compression="zlib">
-   eJzt2EEShCAMBEC+r+sHFB+7HJZaD1ZADGRCzSE1V0kTQZcQwppqcZ57qmOCtO4jPeiBnNZ9pAc9kNO6j/SgB3Ja93E2j0+q7ZdSbeAe1+eMQp3gHrHQb0/zkdfheT52etCDHvRw5pHX4tnjehZ69jgm8VjD/w71dH6kffq2WvoqZV5jrYd036yt1n1emp/R910ED42kBz3oQY+ZPJ6eq6geLecroodm9trXuXe9vEseo/uI7jE66YGVdx6a1fr/462HxjdUzfu+t4fXtN7XWvkFIV+NTA==
-  </data>
- </layer>
-</map>
