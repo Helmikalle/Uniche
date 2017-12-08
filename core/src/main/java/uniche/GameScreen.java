@@ -19,9 +19,13 @@ import java.util.Iterator;
 
 public class GameScreen implements Screen {
     final MainLauncher game;
-    Texture cupcakeimg;
+    private Texture cupcakeimg;
+    private Texture mangocakeimg;
+    private Texture wasteimg;
     private OrthographicCamera camera;
     private Rectangle pony;
+    private Rectangle lever;
+    private Rectangle door;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
     private Animation animation;
@@ -30,8 +34,9 @@ public class GameScreen implements Screen {
     private TextureAtlas poniAtlasAlas;
     private TextureAtlas poniAtlasVasen;
     private TextureAtlas poniAtlasOikea;
-    private int cupcakeCounter = 0;
+    public int cupcakeCounter = 0;
     private int healthBar = 1000;
+    private boolean exitLevel = false;
 
     public GameScreen(final MainLauncher game) {
         float w = Gdx.graphics.getWidth();
@@ -41,6 +46,8 @@ public class GameScreen implements Screen {
         //Kuvan tuontia -Kalle'
 
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
+        mangocakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/mangokakku.png"));
+        wasteimg = new Texture(Gdx.files.internal("core/assets/ydinjate/ydinjate.png"));
         poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponieteen/poniylos.atlas"));
         poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/ponitaakse/ponialas.atlas"));
         poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponivasemmalle/ponivasen.atlas"));
@@ -57,6 +64,18 @@ public class GameScreen implements Screen {
         pony.y = 0;
         pony.width = 32/2;
         pony.height = 32/2;
+
+        lever = new Rectangle();
+        lever.x = 300;
+        lever.y = 150;
+        lever.width = 32/2;
+        lever.height = 32/2;
+
+        door = new Rectangle();
+        door.x = 360;
+        door.y = 150;
+        door.width = 32/2;
+        door.height = 32/2;
 
         raindrops = new Array<Rectangle>();
         spawnRaindrop();
@@ -88,12 +107,16 @@ public class GameScreen implements Screen {
             //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        if (healthBar <= 0){
-            game.setScreen(new GameOverScreen(game));}
+        gameOver();
+        leverChange();
+        completeLevel();
             //Nää pitäis saada ruutuun kiinni varmaan mielummin ku poniin -Kalle
-        game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.x + 170, pony.y + 110);
-        game.font.draw(game.batch, String.valueOf(healthBar), pony.x + 170, pony.y + 90);
-
+        game.font.draw(game.batch, "CUPCAKES: ", pony.x - 185, pony.y + 110);
+        game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.x - 95, pony.y + 110);
+        game.font.draw(game.batch, "HEALTH: ", pony.x - 185, pony.y + 90);
+        game.font.draw(game.batch, String.valueOf(healthBar), pony.x - 120, pony.y + 90);
+        game.batch.draw(mangocakeimg, lever.x, lever.y);
+        game.batch.draw(wasteimg, door.x, door.y);
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed,true), pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
@@ -103,11 +126,8 @@ public class GameScreen implements Screen {
         game.batch.flush();
         game.batch.end();
 
-        //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
-        if (pony.x < 16) pony.x = 16;
-        if (pony.x > 800-32 ) pony.x = 800 - 32;
-        if (pony.y < 16 ) pony.y = 16;
-        if (pony.y > 480 - 200) pony.y = 480 - 200;
+        setBorders();
+        exitGame();
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
             //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
@@ -119,7 +139,7 @@ public class GameScreen implements Screen {
             Rectangle raindrop = iter.next();
             if (raindrop.overlaps(pony)){
                 iter.remove();
-                cupcakeCounter += 5;
+                cupcakeCounter++;
                 healthBar = healthBar + 100;
                 if (healthBar <= 0){
                     game.setScreen(new GameOverScreen(game));
@@ -127,7 +147,41 @@ public class GameScreen implements Screen {
 
             }
         }
+    }
+    //Kytkimen painaminen  -Titta
+    private void leverChange(){
+        if (lever.overlaps(pony)){
+            exitLevel = true;
+        }
+    }
 
+    //Tason päättyminen -Titta
+    private void completeLevel(){
+        if (door.overlaps(pony) && exitLevel == true){
+            game.setScreen(new NextLevelScreen(game));
+        }
+    }
+
+    //Peli loppuu ja siirtyy "Game over"-näkymään, jos health bar tyhjenee -Titta
+    private void gameOver(){
+        if (healthBar <= 0){
+            game.setScreen(new GameOverScreen(game));}
+    }
+
+    //Peli voidaan keskeyttää painamalla esc:iä -Titta
+    private void exitGame(){
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            game.setScreen(new MainMenuScreen(game));
+        }
+    }
+
+    //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
+    // Laitoin omaan metodiin -Titta
+    private void setBorders(){
+        if (pony.x < 16) pony.x = 16;
+        if (pony.x > 800-32 ) pony.x = 800 - 32;
+        if (pony.y < 16 ) pony.y = 16;
+        if (pony.y > 480 - 200) pony.y = 480 - 200;
 
     }
 
