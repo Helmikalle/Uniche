@@ -40,10 +40,10 @@ public class GameScreen implements Screen {
 
         //Kuvan tuontia -Kalle
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
-        poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
-        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/paikallaanoleva/PaikkaPoni.atlas"));
-        poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
-        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/ponioikea.atlas"));
+        poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponieteen/poniylos.atlas"));
+        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/ponitaakse/ponialas.atlas"));
+        poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponivasemmalle/ponivasen.atlas"));
+        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/ponioikealle/ponioikea.atlas"));
         animation = new Animation(3/2f,poniAtlasYlos.getRegions());
 
         //Kameran zoom määritelty

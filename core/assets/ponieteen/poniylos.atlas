@@ -1,18 +1,18 @@
 
-ponieteen.png
+poniylos.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ponisprite
-  rotate: false
-  xy: 1, 35
-  size: 64, 128
-  orig: 64, 128
-  offset: 0, 0
-  index: -1
-yksittainenponi
+yksiponieteen1
   rotate: false
   xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+yksiponieteen2
+  rotate: false
+  xy: 35, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
