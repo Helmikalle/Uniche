@@ -146,7 +146,7 @@ public class GameScreen implements Screen {
         inputUpdate(delta);
     }
 
-            //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN
+            //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet -Kalle
     public void inputUpdate(float delta){
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
