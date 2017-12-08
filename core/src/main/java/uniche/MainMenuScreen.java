@@ -42,11 +42,10 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+        changeOption();
         game.font.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
         game.font.draw(game.batch, "START", 390, 250);
         game.font.draw(game.batch, "QUIT", 395, 200);
-
-        changeOption();
         game.batch.end();
     }
 
@@ -57,7 +56,7 @@ public class MainMenuScreen implements Screen {
             game.batch.draw(cupcakeimg, 340, 185);
         }
     }
-
+    //Mahdollistetaan valinnanmuutos ja itse valinta
     public void handleInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && currentOption < options.length - 1) {
             currentOption++;
@@ -69,7 +68,7 @@ public class MainMenuScreen implements Screen {
             selectOption();
         }
     }
-
+    //Valinnan aiheuttama tapahtuma
     public void selectOption() {
         if(currentOption == 0) {
             game.setScreen(new GameScreen(game));
