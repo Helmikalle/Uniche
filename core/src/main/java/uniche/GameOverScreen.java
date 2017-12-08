@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
+//Game over -luokka
 public class GameOverScreen implements Screen {
 
     final MainLauncher game;

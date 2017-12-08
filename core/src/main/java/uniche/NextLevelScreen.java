@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import main.java.uniche.GameScreen;
 import java.awt.*;
 
-//Menu-luokka
+//Seuraava taso -luokka
 public class NextLevelScreen implements Screen {
     final MainLauncher game;
     OrthographicCamera camera;
