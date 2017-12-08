@@ -20,7 +20,6 @@ import java.util.Iterator;
 public class GameScreen implements Screen {
     final MainLauncher game;
     Texture cupcakeimg;
-    Texture wasteimg;
     private OrthographicCamera camera;
     private Rectangle pony;
     private Array<Rectangle> raindrops;
@@ -32,20 +31,20 @@ public class GameScreen implements Screen {
     private TextureAtlas poniAtlasVasen;
     private TextureAtlas poniAtlasOikea;
     private int cupcakeCounter = 0;
-    private int healthBar = 20;
+    private int healthBar = 1000;
 
     public GameScreen(final MainLauncher game) {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         this.game = game;
 
-        //Kuvan tuontia -Kalle //ALUSTAVA KOODI
+        //Kuvan tuontia -Kalle'
+
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
-        wasteimg = new Texture(Gdx.files.internal("core/assets/ydinjate/ydinjate.png"));
-        poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
-        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/paikallaanoleva/PaikkaPoni.atlas"));
-        poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponijuoksee.atlas"));
-        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/poninkuvia/ponioikea.atlas"));
+        poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponieteen/poniylos.atlas"));
+        poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/ponitaakse/ponialas.atlas"));
+        poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponivasemmalle/ponivasen.atlas"));
+        poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/ponioikealle/ponioikea.atlas"));
         animation = new Animation(3/2f,poniAtlasYlos.getRegions());
 
         //Kameran zoom määritelty
@@ -89,14 +88,18 @@ public class GameScreen implements Screen {
             //Tässä piirtää tavaraa ruudulle -Kalle
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        if (healthBar <= 0){
+            game.setScreen(new GameOverScreen(game));}
+            //Nää pitäis saada ruutuun kiinni varmaan mielummin ku poniin -Kalle
         game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.x + 170, pony.y + 110);
         game.font.draw(game.batch, String.valueOf(healthBar), pony.x + 170, pony.y + 90);
-        game.batch.draw(wasteimg, 300, 235);
+
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed,true), pony.x, pony.y);
         for (Rectangle raindrop: raindrops) {
             game.batch.draw(cupcakeimg, raindrop.x, raindrop.y);
             ++i;
         }
+
         game.batch.flush();
         game.batch.end();
 
@@ -108,6 +111,8 @@ public class GameScreen implements Screen {
 
             // kysely random kuppikakuista ei tule itse peliin - Kalle
             //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
+                //Pistin vähän lisää healthbariin elämää :D ja lisäsin toiminnallisuuden
+                // et joka keystrokesta lähtee elämää -Kalle
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000 && i < 3) spawnRaindrop() ;
         Iterator<Rectangle> iter = raindrops.iterator();
         while(iter.hasNext()){
@@ -115,33 +120,14 @@ public class GameScreen implements Screen {
             if (raindrop.overlaps(pony)){
                 iter.remove();
                 cupcakeCounter += 5;
-                healthBar = healthBar - 5;
-                if (healthBar == 0){
+                healthBar = healthBar + 100;
+                if (healthBar <= 0){
                     game.setScreen(new GameOverScreen(game));
                 }
 
             }
         }
 
-    }
-
-    public void poniAnimaatio() {
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            animation = new Animation(3/2f,poniAtlasVasen.getRegions());
-            System.out.println("vasen");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            animation = new Animation(3/2f,poniAtlasOikea.getRegions());
-            System.out.println("oikea");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            animation = new Animation(3/2f,poniAtlasYlos.getRegions());
-            System.out.println("ylös");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            animation = new Animation(3/2f,poniAtlasAlas.getRegions());
-            System.out.println("alas");
-        }
 
     }
 
@@ -158,30 +144,30 @@ public class GameScreen implements Screen {
     public void update(float delta) {
         cameraUpdate(delta);
         inputUpdate(delta);
-        poniAnimaatio();
     }
 
-    //PONI VAIHTAA SUUNTAA (EHKÄ) tarvitaan atlas mappeja
-    public void suunta (float delta) {
-
-
-    }
-
-            //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN
+            //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet -Kalle
     public void inputUpdate(float delta){
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             timePassed = pony.x -= 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasVasen.getRegions());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             timePassed = pony.x += 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasOikea.getRegions());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasYlos.getRegions());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             timePassed = pony.y -= 200* Gdx.graphics.getDeltaTime();
+            animation = new Animation(3/2f,poniAtlasAlas.getRegions());
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)||Gdx.input.isKeyPressed(Input.Keys.DOWN)||
+                Gdx.input.isKeyPressed(Input.Keys.RIGHT)||Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            healthBar-=1;
 
     }
     @Override

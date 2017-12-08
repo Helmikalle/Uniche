@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" source="uusika.tsx"/>
+ <layer name="Tile Layer 1" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlsENgDAIRdmwbqBj1g3qVuLhJ4T0UIpKjBx+fkIKzQtCLUS0sMqgV9ZuOC8duTK+sjaDo4Y17/LGOlTcyuHhx/3Jn/x/5I+ef+RG8Uf3P/m/z48a0fNfJ+WdfzC0AeE+GfPyo8bsvtP+ZP9737v25E/+SP7ZHXIX/8ge0Yrsv/e98/bf+7+X/O/x99477SdY1qIB
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1s9uQUEUx/FB2aPs60/3VbVHa0//7JV6I/oEbZ+gPIF6AjwB3djSzV34StzkRDQZ5g4h95d8YjY3J2dGTk5AKRVECBcII6Lspo0O3hFFDHFcIoGk5fof+MQXrpBCGhlkcW25/je66OEGOdwijzsUDli/iBLKuMcDKpbry/evooZHPOEZL5bry/ev4xUNNPGGluX68v6PEdn/MeL3f/r99/GDgeZZxov+hxhhrHmWkfNn30wwxa/meSa+9eL+51jgT/PsiG/P4f83Wwuo7fuLvG/3vd1fL/p31v7bX+R9u/3amDs6+4vbr413N91fTObIKqb7i8kcWcV0f9l1jmzGdH/ZdY748ePnfLIEja6Y2w==
+  </data>
+ </layer>
+</map>
