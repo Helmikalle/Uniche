@@ -38,7 +38,8 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         this.game = game;
 
-        //Kuvan tuontia -Kalle
+        //Kuvan tuontia -Kalle'
+
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         poniAtlasYlos = new TextureAtlas(Gdx.files.internal("core/assets/ponieteen/poniylos.atlas"));
         poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/ponitaakse/ponialas.atlas"));
@@ -89,7 +90,6 @@ public class GameScreen implements Screen {
         game.batch.begin();
         if (healthBar <= 0){
             game.setScreen(new GameOverScreen(game));}
-
             //Nää pitäis saada ruutuun kiinni varmaan mielummin ku poniin -Kalle
         game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.x + 170, pony.y + 110);
         game.font.draw(game.batch, String.valueOf(healthBar), pony.x + 170, pony.y + 90);
@@ -152,23 +152,22 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             timePassed = pony.x -= 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasVasen.getRegions());
-            healthBar -= 1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             timePassed = pony.x += 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasOikea.getRegions());
-            healthBar -= 1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             timePassed = pony.y += 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasYlos.getRegions());
-            healthBar -= 1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
             timePassed = pony.y -= 200* Gdx.graphics.getDeltaTime();
             animation = new Animation(3/2f,poniAtlasAlas.getRegions());
-            healthBar -= 1;
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)||Gdx.input.isKeyPressed(Input.Keys.DOWN)||
+                Gdx.input.isKeyPressed(Input.Keys.RIGHT)||Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            healthBar-=1;
 
     }
     @Override
