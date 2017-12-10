@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/ponitaakse/ponialas.atlas"));
         poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponivasemmalle/ponivasen.atlas"));
         poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/ponioikealle/ponioikea.atlas"));
-        animation = new Animation(1/ 30f, poniAtlasYlos.getRegions());
+        animation = new Animation(1/ 30f, poniAtlasOikea.getRegions());
 
 
         tiledMap = new TmxMapLoader().load("core/assets/uudetkartat/kolmaskartta.tmx");
@@ -189,37 +189,32 @@ public class GameScreen implements Screen {
 
     //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet -Kalle
     public void inputUpdate(float delta) {
-
-
+        float angle = (float) (90*DEGREES_TO_RADIANS);
         int horizontalForce = 0;
         int verticalForce =0;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            float angle = (float) (180*DEGREES_TO_RADIANS);
             horizontalForce -=1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasVasen.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle);
+            pony.setTransform(pony.getWorldCenter(), angle = (float) (180*DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            float angle = (float) (360*DEGREES_TO_RADIANS);
             horizontalForce +=1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasOikea.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle);
+            pony.setTransform(pony.getWorldCenter(), angle = (float) (360*DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            float angle = (float) (90*DEGREES_TO_RADIANS);
             verticalForce +=1;
             timePassed = 100 *  Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasYlos.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle);
+            pony.setTransform(pony.getWorldCenter(), angle = (float) (90*DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            float angle = (float) (270*DEGREES_TO_RADIANS);
             verticalForce -=1;
             timePassed = 100* Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasAlas.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle);
+            pony.setTransform(pony.getWorldCenter(), angle = (float) (270*DEGREES_TO_RADIANS));
         }
 
         pony.setLinearVelocity(verticalForce * 5,pony.getLinearVelocity().y);
