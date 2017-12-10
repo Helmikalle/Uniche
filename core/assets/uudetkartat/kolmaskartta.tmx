@@ -8,7 +8,7 @@
  </layer>
  <layer name="oheis" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztmTtOAzEQQDeEJVlEGk5AwzlyJuAESQN0wFloKOmRAHGTTQ6AR8TSMPgztseflXiSC4jXv/nbXefnddV1t33X3al2r9rLkb3vlWrXqt04xhvOGZMq9mquUbXFitdfgvdyU/3ieUj7fog8I+53Ppl9BMz5FtBXki+BMUAfQS+B7eF/F54znKOzw98/nfnn+2Ss6ZExTqx+UFL0lLNfG1R2+m+pfXGJ9Q+pPsxkM7XsKNfcKfoxBVLODPQuRNfnDn/94DjnNZpja+/mHB84LWyXLcGJMyF+pFZO0jqxsSjGF+/6nwZcku+XxBbGPmxsbEs0lm863nq5OhKytl3gPgBujkVlp33/5vD3wuJfYuOobV25awuJnFNTOteZHeajspg14Nul8w/beKl1GSakRgLAViXO2hXvQ1k71jMY/Jiu4WOx+QHf/BxMsg21MZvfjfGdJfHpFfyeKjsTtnq29fPC0NwX6/pecB+SsaMGvhpBQ+8McQ7UozGmfh4Ual8be9c/tbGuzXYeGwV/pn3U6OhLY1NIfJXKS+A8OPHWZGOScVrD0Tea+5ckx55j8ioq/5L3Upz70Vy49P64ol4Aqb5yFI5lNeHuIzXXKflO5UIib8vhW1rAJaMjYrM0HuNvfW8u+HfpvIUrG4jpJ43oZG5CdR5kyXmr9sHNfXxywDKltZCtroU79tA7BQ6uOhr70qncS7vWaapRWrYZ7FeWzHXq/ffMnITzrs15q6tR08fWIjafuu8N9jiRN+fS6HXi8wm9k8PEnjPXLnJQ803+HzvcOv0bHYhwdg==
+   eJzNWU1qVEEQfpP4MjNhZpMTuHGjniAgOYwnUE8w2ahZmXgVNy4FwU1gDEGDIAquBWFmDmAXmcKyUlVd1a87+kHDzHvV3dX1X/26Lo9386573nfdizRepvF2R6d9ksbTNJ4Z600PHJsmbNJeqzTGcx99DSzT+DC7+fzEOHMp6JpvpjqdR17TQhnxeWfC2T08fAzsee6g0fgoAcr5ssJaYI9gl4Dj7bO7GdnvEtnR+XjGH+ys+Bz4vsjwA3NPHbKS7CM3T9IB2imd69lfW88LPhd1WWr3EVA/XRbMAZTEsDGxG8lnPH5UCqpTSW9D9tbsoKbPD4U33kt0/BnK8lx45gXYnWXrX9l6u0a8fmXsfUT2ONbJzPUB+/M6OfNnJZt4YMjOsrtHBX6r5ZlfZB9vHInSWrjfOFZyOWq6e1iJD6tm4nhNeInGYrDjdX89APfY/MnB37Sr3r8ugPoSjwuLzsevZiNcJ8Dbe6dPwXmPgrLy1licL/y/2P4fK/GltBfQ+ML1vqf9vzXIP5Y8vHpAeGqdL2nNz8JZvD0XxWi7H9fFqHEcudqewUKN2ofmQW29SIyh+DS7HhS5Hon7PviqJGvQ5UXAdqx8nwO3IyseTIU4hj28hMtEs5zpvg6w3lHAflEbl3QLPuapQ5FGi7trZw74V8j5MLy3dAeI1LAoL6mfhXdeeZXEsdrgtS+19U1Fvde4r0BEc00N5HoEBL8zpHbVs9oKMfQ83t4k0pNK94YWuH8tdNIbfGBvts74KMQzjFErg5bnpkh+1eqSQ+W5JnuQhyffSj5WmqcljLY25/G/SaN4pK1LfaP0zJZNo97vBM7F9d/yXoojdz/qRV+gR6sej8ivBYbmjlXlXIZodcdn1SLWOR7v/fnt7dspaCy7ze9UFrS6LXIfR2NLJK+1+E5WE1RHnNcd5rM8H+NcmJerfen7mnUcwBv3IafvBWyS5uvo/TSiVT7Mgdt8zg5Bl55v1Tl47mRAljk9UJ3yXkjrefadvWoUVo9FY2mNe2nucy1g8Yk9Cs3XEZ8pxWHh9xHqlxMnn3h+rca5UnoL67t2zu4gr5bcgQzNH+CPNKd7ocXUTS/4Y4F9eP1UyrWS/baMs5HYT/lFPql8htzXeOXM+0yvX7TAbfY+Xnh8qhbN/wqvv/wGTk2wmg==
   </data>
  </layer>
  <objectgroup name="objektit">
@@ -39,7 +39,7 @@
   <object id="11" x="480" y="894">
    <polyline points="0,0 0.666667,226.667 32.6667,226.333 32,66.75 64.9167,66.0833 64.5,99 96,98.75 96,130.5 128,130 128,162 160.5,161.5 160,186 160,195 193,195 192.667,227 255,227.5 257,2 225.5,1.5 225,162.75 193,162 193,130.5 159.5,131 159.75,99 128.25,99 127.5,66.5 97.25,67 97,34.25 64.75,34.5 64.5,3.5 -2.5,2"/>
   </object>
-  <object id="12" x="64" y="1279">
+  <object id="12" x="64" y="1279" visible="0">
    <polyline points="0.393939,0.575758 64.2727,1.39394 63,225.333 1.42109e-14,226 0.787879,0.515152"/>
   </object>
   <object id="13" x="191" y="1183">
