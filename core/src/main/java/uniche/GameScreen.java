@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
     private float timePassed = 0;
     private TextureAtlas poniAtlasYlos,poniAtlasAlas,poniAtlasVasen,poniAtlasOikea;
     private int cupcakeCounter = 0;
-    private int healthBar = 1000;
+    private int healthBar = 4000;
     private Box2DDebugRenderer b2Render;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap tiledMap;

@@ -19,7 +19,7 @@ public class MainMenuScreen implements Screen {
             "START",
             "QUIT"};
 
-//
+//liikutaan menussa käyttänen nuolinpääimiä ja viereen kuppikakkukuva
     public MainMenuScreen(final MainLauncher game) {
         this.game = game;
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
@@ -31,7 +31,7 @@ public class MainMenuScreen implements Screen {
     public void show() {
 
     }
-
+//piiretään menuun valintanäppäimet
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0, 0.1f, 1);
