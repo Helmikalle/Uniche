@@ -1,8 +1,11 @@
 package main.java.uniche;
 
+import box2dLight.ConeLight;
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,6 +25,7 @@ import main.java.uniche.utils.TiledKartta;
 import static main.java.uniche.utils.Skaalausta.Scaler;
 
 public class GameScreen implements Screen {
+    private static final double DEGREES_TO_RADIANS = (double)(Math.PI/180);
     private World world;
     final MainLauncher game;
     private Texture cupcakeimg,wasteimg,mangocakeimg;
@@ -38,6 +42,8 @@ public class GameScreen implements Screen {
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap tiledMap;
     private Rectangle lever,door;
+    private RayHandler rayHandler;
+    private ConeLight horn;
 
 
     public GameScreen(final MainLauncher game) {
@@ -83,8 +89,15 @@ public class GameScreen implements Screen {
 
         //        raindrops = new Array<Body>();
         //        spawnRaindrop();
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(.05f);
+        horn = new ConeLight(rayHandler,120,Color.WHITE,6,0,0,pony.getAngle(),60);
+        horn.setSoftnessLength(0f);
+        horn.attachToBody(pony);
+
 
     }
+
 
     @Override
     public void show() {
@@ -94,6 +107,9 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         int i = 0;
+//        float angle = (float) Math.atan2((double) pony.getLinearVelocity().x,
+//                (double) pony.getLinearVelocity().y);
+//        pony.setTransform(pony.getWorldCenter(), angle - ((float)Math.PI)/2.0f);
         //Tässä piirtää tavaraa ruudulle -Kalle
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -101,6 +117,7 @@ public class GameScreen implements Screen {
         tmr.render();
         update(Gdx.graphics.getDeltaTime());
         b2Render.render(world,camera.combined.scl(Scaler));
+        rayHandler.render();
 
 
 //        leverChange();
@@ -159,39 +176,52 @@ public class GameScreen implements Screen {
 
     public void update(float delta) {
         world.step(1/60f,6,2);
+        rayHandler.update();
         inputUpdate(delta);
         gameOver();
         exitGame();
         world.clearForces();
         cameraUpdate(delta);
         game.batch.setProjectionMatrix(camera.combined);
+        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Scaler));
         tmr.setView(camera);
     }
 
     //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet -Kalle
     public void inputUpdate(float delta) {
+
+
         int horizontalForce = 0;
         int verticalForce =0;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            float angle = (float) (180*DEGREES_TO_RADIANS);
             horizontalForce -=1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasVasen.getRegions());
+            pony.setTransform(pony.getWorldCenter(), angle);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            float angle = (float) (360*DEGREES_TO_RADIANS);
             horizontalForce +=1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasOikea.getRegions());
+            pony.setTransform(pony.getWorldCenter(), angle);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            float angle = (float) (90*DEGREES_TO_RADIANS);
             verticalForce +=1;
             timePassed = 100 *  Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasYlos.getRegions());
+            pony.setTransform(pony.getWorldCenter(), angle);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            float angle = (float) (270*DEGREES_TO_RADIANS);
             verticalForce -=1;
             timePassed = 100* Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasAlas.getRegions());
+            pony.setTransform(pony.getWorldCenter(), angle);
         }
+
         pony.setLinearVelocity(verticalForce * 5,pony.getLinearVelocity().y);
         pony.setLinearVelocity(horizontalForce * 5,pony.getLinearVelocity().x);
 
@@ -230,6 +260,7 @@ public class GameScreen implements Screen {
         game.batch.dispose();
         tmr.dispose();
         tiledMap.dispose();
+        rayHandler.dispose();
 
 
     }
