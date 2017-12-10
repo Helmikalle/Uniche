@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import main.java.uniche.utils.TiledKartta;
 
 import static main.java.uniche.utils.Skaalausta.Scaler;
 
@@ -59,13 +60,13 @@ public class GameScreen implements Screen {
         animation = new Animation(1/ 30f, poniAtlasYlos.getRegions());
 
 
-        tiledMap = new TmxMapLoader().load("core/assets/kartat/omakartta.tmx");
+        tiledMap = new TmxMapLoader().load("core/assets/uudetkartat/kolmaskartta.tmx");
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
         pony = createPony();
 
         //TÄTÄ TARVITAAN SITTEN KUN ON KARTTA KUNNOSSA JA ON JOTAIN TÖRMÄTTÄVIÄ REUNOJA
-//        TiledKartta.parseTiledMap(world,tiledMap.getLayers()
-//                .get("collision-layer").getObjects());
+        TiledKartta.parseTiledMap(world,tiledMap.getLayers()
+                .get("objektit").getObjects());
 
 
         lever = new Rectangle();
@@ -237,11 +238,11 @@ public class GameScreen implements Screen {
         Body pony;
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
-        def.position.set(3,6);
+        def.position.set(2,2);
         def.fixedRotation= true;
         pony = world.createBody(def);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(32/2/Scaler,32/2/Scaler);
+        shape.setAsBox(28/2/Scaler,28/2/Scaler);
         pony.createFixture(shape,0.0f);
         shape.dispose();
         return pony;
