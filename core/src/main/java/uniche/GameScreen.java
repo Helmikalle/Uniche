@@ -187,7 +187,8 @@ public class GameScreen implements Screen {
         tmr.setView(camera);
     }
 
-    //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet -Kalle
+    //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet. Lisätty vielä bodyn kääntyminen jotta saatiin
+    // Cone Light toimimaan -Kalle
     public void inputUpdate(float delta) {
         float angle = (float) (90*DEGREES_TO_RADIANS);
         int horizontalForce = 0;
