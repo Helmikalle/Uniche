@@ -20,6 +20,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import main.java.uniche.entities.Cakes;
+import main.java.uniche.utils.ContactHandler;
 import main.java.uniche.utils.TiledKartta;
 
 import static main.java.uniche.utils.Skaalausta.Scaler;
@@ -44,6 +46,7 @@ public class GameScreen implements Screen {
     private Rectangle lever,door;
     private RayHandler rayHandler;
     private ConeLight horn;
+    private Cakes cupcakeObj,mangocakeObj;
 
 
     public GameScreen(final MainLauncher game) {
@@ -51,6 +54,10 @@ public class GameScreen implements Screen {
         float h = Gdx.graphics.getHeight();
         this.game = game;
         world = new World(new Vector2(0,0),false);
+        this.world.setContactListener(new ContactHandler());
+        cupcakeObj = new Cakes(world,"CUPCAKE",8,8);
+        mangocakeObj = new Cakes(world,"MANGO",8,5);
+
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
@@ -91,6 +98,8 @@ public class GameScreen implements Screen {
 
         //        raindrops = new Array<Body>();
         //        spawnRaindrop();
+
+
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.1f);
         horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.getAngle(),60);
@@ -114,14 +123,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tmr.render();
-        update(Gdx.graphics.getDeltaTime());
-
-        //TÄSTÄ SAA COLLISION LAYERIT NÄKYMÄÄN
-//        b2Render.render(world,camera.combined.scl(Scaler));
-
-
-        //TUODAAN VALO "horn" PONILLE
-        rayHandler.render();
 
 //        leverChange();
 //        completeLevel();
@@ -135,11 +136,11 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.getPosition().x - 95, pony.getPosition().y + 110);
         game.font.draw(game.batch, "HEALTH: ", pony.getPosition().x - 185, pony.getPosition().y + 90);
         game.font.draw(game.batch, String.valueOf(healthBar), pony.getPosition().x - 120, pony.getPosition().y + 90);
-        game.batch.draw(mangocakeimg, lever.x, lever.y);
+        game.batch.draw(mangocakeimg, mangocakeObj.cake.getPosition().x * Scaler - 16, mangocakeObj.cake.getPosition().y * Scaler -16);
         game.batch.draw(wasteimg, door.x, door.y);
+        game.batch.draw(cupcakeimg,cupcakeObj.cake.getPosition().x * Scaler -16,cupcakeObj.cake.getPosition().y * Scaler -16);
 
-        game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
-                pony.getPosition().x * Scaler  - 16, pony.getPosition().y * Scaler - 16);
+
 //        for (Body raindrop : raindrops) {
 //            game.batch.draw(cupcakeimg, raindrop.getPosition().x, raindrop.getPosition().y);
 //            ++i;
@@ -147,6 +148,19 @@ public class GameScreen implements Screen {
 
         game.batch.end();
 //        setBorders();
+        rayHandler.render();
+        game.batch.begin();
+        game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
+                pony.getPosition().x * Scaler  - 16, pony.getPosition().y * Scaler - 16);
+        game.batch.end();
+        update(Gdx.graphics.getDeltaTime());
+
+        //TÄSTÄ SAA COLLISION LAYERIT NÄKYMÄÄN
+//        b2Render.render(world,camera.combined.scl(Scaler));
+
+
+        //TUODAAN VALO "horn" PONILLE
+
 
         // kysely random kuppikakuista ei tule itse peliin - Kalle
         //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
@@ -159,7 +173,7 @@ public class GameScreen implements Screen {
 //            if (raindrop.overlaps(pony)) {
 //                iter.remove();
 //                cupcakeCounter += 5;
-//                healthBar = healthBar + 100;
+//                healthBar = healthBar + 100;0
 //                if (healthBar <= 0) {
 //                    game.setScreen(new GameOverScreen(game));
 //                }
@@ -271,10 +285,13 @@ public class GameScreen implements Screen {
         def.type = BodyDef.BodyType.DynamicBody;
         def.position.set(2,2);
         def.fixedRotation= true;
-        pony = world.createBody(def);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(28/2/Scaler,28/2/Scaler);
-        pony.createFixture(shape,0.0f);
+        FixtureDef fixturePony = new FixtureDef();
+        fixturePony.shape = shape;
+        fixturePony.density = 1.0f;
+        pony = world.createBody(def);
+        pony.createFixture(fixturePony).setUserData(this);
         shape.dispose();
         return pony;
     }
