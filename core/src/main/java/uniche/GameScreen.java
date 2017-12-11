@@ -18,9 +18,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import main.java.uniche.entities.Cakes;
+import main.java.uniche.entities.HarmfulItems;
+import main.java.uniche.entities.Pony;
 import main.java.uniche.utils.ContactHandler;
 import main.java.uniche.utils.TiledKartta;
 
@@ -32,9 +34,7 @@ public class GameScreen implements Screen {
     final MainLauncher game;
     private Texture cupcakeimg,wasteimg,mangocakeimg;
     private OrthographicCamera camera;
-    private Body pony;
-    private Array<Body> raindrops;
-    private long lastDropTime;
+    private Pony pony;
     private Animation animation;
     private float timePassed = 0;
     private TextureAtlas poniAtlasYlos,poniAtlasAlas,poniAtlasVasen,poniAtlasOikea;
@@ -47,6 +47,7 @@ public class GameScreen implements Screen {
     private RayHandler rayHandler;
     private ConeLight horn;
     private Cakes cupcakeObj,mangocakeObj;
+    private HarmfulItems wasteBarrel;
 
 
     public GameScreen(final MainLauncher game) {
@@ -57,6 +58,8 @@ public class GameScreen implements Screen {
         this.world.setContactListener(new ContactHandler());
         cupcakeObj = new Cakes(world,"CUPCAKE",8,8);
         mangocakeObj = new Cakes(world,"MANGO",8,5);
+        pony = new Pony(world,"UNICORN",2,2);
+        wasteBarrel = new HarmfulItems(world,"WASTEBARREL",8,1.5f);
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
@@ -75,7 +78,7 @@ public class GameScreen implements Screen {
         //Tuodaan kartta -Kalle
         tiledMap = new TmxMapLoader().load("core/assets/uudetkartat/kolmaskartta.tmx");
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
-        pony = createPony();
+
 
         //TÄTÄ TARVITAAN SITTEN KUN ON KARTTA KUNNOSSA JA ON JOTAIN TÖRMÄTTÄVIÄ REUNOJA
         TiledKartta.parseTiledMap(world,tiledMap.getLayers()
@@ -96,17 +99,15 @@ public class GameScreen implements Screen {
         door.width = 32/2;
         door.height = 32/2;
 
-        //        raindrops = new Array<Body>();
-        //        spawnRaindrop();
 
-
+        //TÄMÄ TUO HIMMENNYKSEN
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.1f);
-        horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.getAngle(),60);
+
+        //LUODAAN ETEENPÄIN NÄYTTÄVÄ VALO
+        horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.pony.getAngle(),60);
         horn.setSoftnessLength(0f);
-        horn.attachToBody(pony);
-
-
+        horn.attachToBody(pony.pony);
     }
 
 
@@ -126,32 +127,29 @@ public class GameScreen implements Screen {
 
 //        leverChange();
 //        completeLevel();
-
+//        setBorders();
         game.batch.begin();
         if (healthBar <= 0) {
             game.setScreen(new GameOverScreen(game));
         }
         //Nää pitäis saada ruutuun kiinni varmaan mielummin ku poniin -Kalle
-        game.font.draw(game.batch, "CUPCAKES: ", pony.getPosition().x - 185, pony.getPosition().y + 110);
-        game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.getPosition().x - 95, pony.getPosition().y + 110);
-        game.font.draw(game.batch, "HEALTH: ", pony.getPosition().x - 185, pony.getPosition().y + 90);
-        game.font.draw(game.batch, String.valueOf(healthBar), pony.getPosition().x - 120, pony.getPosition().y + 90);
+        game.font.draw(game.batch, "CUPCAKES: ", pony.pony.getPosition().x - 185, pony.pony.getPosition().y + 110);
+        game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.pony.getPosition().x - 95, pony.pony.getPosition().y + 110);
+        game.font.draw(game.batch, "HEALTH: ", pony.pony.getPosition().x - 185, pony.pony.getPosition().y + 90);
+        game.font.draw(game.batch, String.valueOf(healthBar), pony.pony.getPosition().x - 120, pony.pony.getPosition().y + 90);
+
+
+        game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
+
+        //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT
         game.batch.draw(mangocakeimg, mangocakeObj.cake.getPosition().x * Scaler - 16, mangocakeObj.cake.getPosition().y * Scaler -16);
-        game.batch.draw(wasteimg, door.x, door.y);
         game.batch.draw(cupcakeimg,cupcakeObj.cake.getPosition().x * Scaler -16,cupcakeObj.cake.getPosition().y * Scaler -16);
-
-
-//        for (Body raindrop : raindrops) {
-//            game.batch.draw(cupcakeimg, raindrop.getPosition().x, raindrop.getPosition().y);
-//            ++i;
-//        }
-
         game.batch.end();
-//        setBorders();
+
         rayHandler.render();
         game.batch.begin();
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
-                pony.getPosition().x * Scaler  - 16, pony.getPosition().y * Scaler - 16);
+                pony.pony.getPosition().x * Scaler  - 16, pony.pony.getPosition().y * Scaler - 16);
         game.batch.end();
         update(Gdx.graphics.getDeltaTime());
 
@@ -184,8 +182,8 @@ public class GameScreen implements Screen {
     //Kamera seuraa ponia -Kalle
     public void cameraUpdate(float delta) {
         Vector3 position = camera.position;
-        position.x = pony.getPosition().x * Scaler;
-        position.y = pony.getPosition().y * Scaler;
+        position.x = pony.pony.getPosition().x * Scaler;
+        position.y = pony.pony.getPosition().y * Scaler;
         camera.position.set(position);
 
 
@@ -215,29 +213,29 @@ public class GameScreen implements Screen {
             horizontalForce -=1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasVasen.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle = (float) (180*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (180*DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             horizontalForce +=1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasOikea.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle = (float) (360*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (360*DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             verticalForce +=1;
             timePassed = 100 *  Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasYlos.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle = (float) (90*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (90*DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             verticalForce -=1;
             timePassed = 100* Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasAlas.getRegions());
-            pony.setTransform(pony.getWorldCenter(), angle = (float) (270*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (270*DEGREES_TO_RADIANS));
         }
 
-        pony.setLinearVelocity(verticalForce * 5,pony.getLinearVelocity().y);
-        pony.setLinearVelocity(horizontalForce * 5,pony.getLinearVelocity().x);
+        pony.pony.setLinearVelocity(verticalForce * 5,pony.pony.getLinearVelocity().y);
+        pony.pony.setLinearVelocity(horizontalForce * 5,pony.pony.getLinearVelocity().x);
 
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) ||
@@ -277,23 +275,6 @@ public class GameScreen implements Screen {
         rayHandler.dispose();
 
 
-    }
-    // Ponin koko ja aloitus sijainti määritelty  -Kalle
-    public Body createPony () {
-        Body pony;
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        def.position.set(2,2);
-        def.fixedRotation= true;
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(28/2/Scaler,28/2/Scaler);
-        FixtureDef fixturePony = new FixtureDef();
-        fixturePony.shape = shape;
-        fixturePony.density = 1.0f;
-        pony = world.createBody(def);
-        pony.createFixture(fixturePony).setUserData(this);
-        shape.dispose();
-        return pony;
     }
     //Kytkimen painaminen  -Titta
 //    private void leverChange(){

@@ -5,7 +5,7 @@ import main.java.uniche.utils.Skaalausta;
 
 public class HarmfulItems {
 
-    public Body cake;
+    public Body waste;
     public String id;
 
     public HarmfulItems(World world, String id, float x, float y){
@@ -18,17 +18,17 @@ public class HarmfulItems {
         BodyDef bdef = new BodyDef();
         bdef.fixedRotation =  true;
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set(x/ Skaalausta.Scaler,y/Skaalausta.Scaler);
+        bdef.position.set(x,y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(64 / Skaalausta.Scaler,64 / Skaalausta.Scaler);
+        shape.setAsBox(32/ 2 / Skaalausta.Scaler,32/ 2 / Skaalausta.Scaler);
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
         fixture.density = 1.0f;
 
-        this.cake = world.createBody(bdef);
-        this.cake.createFixture(fixture).setUserData(this);
+        this.waste = world.createBody(bdef);
+        this.waste.createFixture(fixture).setUserData(this);
     }
 
     public void poimittu (){
