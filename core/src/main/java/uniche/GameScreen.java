@@ -80,11 +80,9 @@ public class GameScreen implements Screen {
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
 
 
-        //TÄTÄ TARVITAAN SITTEN KUN ON KARTTA KUNNOSSA JA ON JOTAIN TÖRMÄTTÄVIÄ REUNOJA
+        //TÄSSÄ TUODAAN TÖRMÄTTÄVÄT REUNAT -Kalle
         TiledKartta.parseTiledMap(world,tiledMap.getLayers()
                 .get("objektit").getObjects());
-
-
 
 
         lever = new Rectangle();
@@ -138,15 +136,16 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch, "HEALTH: ", pony.pony.getPosition().x - 185, pony.pony.getPosition().y + 90);
         game.font.draw(game.batch, String.valueOf(healthBar), pony.pony.getPosition().x - 120, pony.pony.getPosition().y + 90);
 
-
+        //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
         game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
-
-        //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT
         game.batch.draw(mangocakeimg, mangocakeObj.cake.getPosition().x * Scaler - 16, mangocakeObj.cake.getPosition().y * Scaler -16);
         game.batch.draw(cupcakeimg,cupcakeObj.cake.getPosition().x * Scaler -16,cupcakeObj.cake.getPosition().y * Scaler -16);
         game.batch.end();
 
+        //TUODAAN VALO "horn" PONILLE
         rayHandler.render();
+
+        //TULOSTETAAN PONI ERIKSEEN KOSKA VALO
         game.batch.begin();
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
                 pony.pony.getPosition().x * Scaler  - 16, pony.pony.getPosition().y * Scaler - 16);
@@ -157,7 +156,7 @@ public class GameScreen implements Screen {
 //        b2Render.render(world,camera.combined.scl(Scaler));
 
 
-        //TUODAAN VALO "horn" PONILLE
+
 
 
         // kysely random kuppikakuista ei tule itse peliin - Kalle
@@ -186,7 +185,6 @@ public class GameScreen implements Screen {
         position.y = pony.pony.getPosition().y * Scaler;
         camera.position.set(position);
 
-
         camera.update();
     }
 
@@ -206,7 +204,7 @@ public class GameScreen implements Screen {
     //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet. Lisätty vielä bodyn kääntyminen jotta saatiin
     // Cone Light toimimaan -Kalle
     public void inputUpdate(float delta) {
-        float angle = (float) (90*DEGREES_TO_RADIANS);
+        float angle;
         int horizontalForce = 0;
         int verticalForce =0;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
