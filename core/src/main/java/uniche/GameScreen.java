@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
         poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/ponioikealle/ponioikea.atlas"));
         animation = new Animation(1/ 30f, poniAtlasOikea.getRegions());
 
-
+        //Tuodaan kartta -Kalle
         tiledMap = new TmxMapLoader().load("core/assets/uudetkartat/kolmaskartta.tmx");
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
         pony = createPony();
@@ -73,6 +73,8 @@ public class GameScreen implements Screen {
         //TÄTÄ TARVITAAN SITTEN KUN ON KARTTA KUNNOSSA JA ON JOTAIN TÖRMÄTTÄVIÄ REUNOJA
         TiledKartta.parseTiledMap(world,tiledMap.getLayers()
                 .get("objektit").getObjects());
+
+
 
 
         lever = new Rectangle();
@@ -90,8 +92,8 @@ public class GameScreen implements Screen {
         //        raindrops = new Array<Body>();
         //        spawnRaindrop();
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(.05f);
-        horn = new ConeLight(rayHandler,120,Color.WHITE,6,0,0,pony.getAngle(),60);
+        rayHandler.setAmbientLight(.1f);
+        horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.getAngle(),60);
         horn.setSoftnessLength(0f);
         horn.attachToBody(pony);
 
@@ -107,18 +109,19 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         int i = 0;
-//        float angle = (float) Math.atan2((double) pony.getLinearVelocity().x,
-//                (double) pony.getLinearVelocity().y);
-//        pony.setTransform(pony.getWorldCenter(), angle - ((float)Math.PI)/2.0f);
         //Tässä piirtää tavaraa ruudulle -Kalle
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tmr.render();
         update(Gdx.graphics.getDeltaTime());
-        b2Render.render(world,camera.combined.scl(Scaler));
-        rayHandler.render();
 
+        //TÄSTÄ SAA COLLISION LAYERIT NÄKYMÄÄN
+//        b2Render.render(world,camera.combined.scl(Scaler));
+
+
+        //TUODAAN VALO "horn" PONILLE
+        rayHandler.render();
 
 //        leverChange();
 //        completeLevel();
@@ -170,6 +173,7 @@ public class GameScreen implements Screen {
         position.x = pony.getPosition().x * Scaler;
         position.y = pony.getPosition().y * Scaler;
         camera.position.set(position);
+
 
         camera.update();
     }
