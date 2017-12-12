@@ -16,10 +16,14 @@ public class Cakes {
     private boolean isDestroyed = false;
     private float stateTime;
 
+    //LISÄTTY GETTERI isSetToDestroy:lle, jotta kakut katoaa
+    public boolean isSetToDestroy() {
+        return isSetToDestroy;
+    }
+
     public Cakes (World world, String id, float x, float y){
         this.id = id;
         createCake(world,x,y);
-
     }
 
     private void createCake(World world, float x, float y){

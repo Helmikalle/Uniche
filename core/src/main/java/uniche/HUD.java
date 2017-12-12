@@ -19,7 +19,7 @@ import main.java.uniche.utils.Skaalausta;
 public class HUD {
     public Stage stage;
     private Viewport viewport;
-
+    public static HUD hud;
     //HUD:ssa kuppikakkulaskuri, mangokakkulaskuri ja elämäpalkki
     private static int cupCakeCounter;
     private static int mangoCounter;
@@ -50,7 +50,6 @@ public class HUD {
         Image cupcakeImage = new Image(new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png")));
         Image mangoImage = new Image(new Texture(Gdx.files.internal("core/assets/kakkukuvia/mangokakku.png")));
         Image sydanImage = new Image(new Texture(Gdx.files.internal("core/assets/sydan/sydan.png")));
-
 
         table.add(cupcakeImage).expandX().padTop(10);
         table.add(mangoImage).expandX().padTop(10);

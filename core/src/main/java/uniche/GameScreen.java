@@ -131,8 +131,9 @@ public class GameScreen implements Screen {
 
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
         game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
-        game.batch.draw(mangocakeimg, mangocakeObj.cake.getPosition().x * Scaler - 16, mangocakeObj.cake.getPosition().y * Scaler -16);
-        game.batch.draw(cupcakeimg,cupcakeObj.cake.getPosition().x * Scaler -16,cupcakeObj.cake.getPosition().y * Scaler -16);
+        //LISÄTTY if-lauseet, jotta kakut katoaa
+        if(!mangocakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, mangocakeObj.cake.getPosition().x * Scaler - 16, mangocakeObj.cake.getPosition().y * Scaler -16);
+        if(!cupcakeObj.isSetToDestroy()) game.batch.draw(cupcakeimg,cupcakeObj.cake.getPosition().x * Scaler -16,cupcakeObj.cake.getPosition().y * Scaler -16);
         game.batch.end();
 
         //TUODAAN VALO "horn" PONILLE
@@ -183,6 +184,9 @@ public class GameScreen implements Screen {
     public void update(float delta) {
 
         world.step(1/60f,6,2);
+        //LISÄTTY if-lauseet, jotta kakut katoaa
+        if(cupcakeObj.isSetToDestroy()) cupcakeObj.cake.setActive(false);
+        if(mangocakeObj.isSetToDestroy()) mangocakeObj.cake.setActive(false);
         rayHandler.update();
         inputUpdate(delta);
         gameOver();
@@ -260,7 +264,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         b2Render.dispose();
         world.dispose();
-        game.batch.dispose();
+//        game.batch.dispose();
         tmr.dispose();
         tiledMap.dispose();
         rayHandler.dispose();
