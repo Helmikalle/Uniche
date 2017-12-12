@@ -48,6 +48,7 @@ public class GameScreen implements Screen {
     private ConeLight horn;
     private Cakes cupcakeObj,mangocakeObj;
     private HarmfulItems wasteBarrel;
+    private HUD hud;
 
 
     public GameScreen(final MainLauncher game) {
@@ -63,6 +64,7 @@ public class GameScreen implements Screen {
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
+        hud = new HUD();
         camera.setToOrtho(false, w, h);
 
         //Kuvan tuontia -Kalle'
@@ -150,6 +152,9 @@ public class GameScreen implements Screen {
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
                 pony.pony.getPosition().x * Scaler  - 16, pony.pony.getPosition().y * Scaler - 16);
         game.batch.end();
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+        hud.stage.act();
         update(Gdx.graphics.getDeltaTime());
 
         //TÄSTÄ SAA COLLISION LAYERIT NÄKYMÄÄN
