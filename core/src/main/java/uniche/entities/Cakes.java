@@ -3,6 +3,9 @@ package main.java.uniche.entities;
 import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.utils.Skaalausta;
 
+import static main.java.uniche.HUD.addCupcake;
+import static main.java.uniche.HUD.addMango;
+
 public class Cakes {
 
     public Body cake;
@@ -47,6 +50,11 @@ public class Cakes {
     }
     public void poimittu () {
         System.out.println(id + " TRIGGERED");
+        if (id.equals("CUPCAKE")) {
+            addCupcake();
+        } else if (id.equals("MANGO")) {
+            addMango();
+        }
         isSetToDestroy = true;
     }
 

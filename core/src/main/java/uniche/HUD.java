@@ -3,11 +3,14 @@ package main.java.uniche;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import main.java.uniche.utils.Skaalausta;
@@ -18,16 +21,13 @@ public class HUD {
     private Viewport viewport;
 
     //HUD:ssa kuppikakkulaskuri, mangokakkulaskuri ja elämäpalkki
-    private int cupCakeCounter;
-    private int mangoCounter;
-    private int health;
+    private static int cupCakeCounter;
+    private static int mangoCounter;
+    private static int health;
 
-    private Label cupCakeCounterLabel;
-    private Label cupcakeTextLabel;
-    private Label healthLabel;
-    private Label healthTextLabel;
-    private Label mangoLabel;
-    private Label mangoTextLabel;
+    private static Label cupCakeCounterLabel;
+    private static Label healthLabel;
+    private static Label mangoLabel;
 
     public HUD(){
         cupCakeCounter = 0;
@@ -44,15 +44,17 @@ public class HUD {
         table.setFillParent(true);
 
         cupCakeCounterLabel = new Label(String.format("%02d", cupCakeCounter), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        cupcakeTextLabel = new Label("CUPCAKES: ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         mangoLabel = new Label(String.format("%02d", mangoCounter), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        mangoTextLabel = new Label("MANGO CAKES: ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         healthLabel = new Label(String.format("%02d", health), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        healthTextLabel = new Label("HEALTH: ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(cupcakeTextLabel).expandX().padTop(10);
-        table.add(mangoTextLabel).expandX().padTop(10);
-        table.add(healthTextLabel).expandX().padTop(10);
+        Image cupcakeImage = new Image(new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png")));
+        Image mangoImage = new Image(new Texture(Gdx.files.internal("core/assets/kakkukuvia/mangokakku.png")));
+        Image sydanImage = new Image(new Texture(Gdx.files.internal("core/assets/sydan/sydan.png")));
+
+
+        table.add(cupcakeImage).expandX().padTop(10);
+        table.add(mangoImage).expandX().padTop(10);
+        table.add(sydanImage).expandX().padTop(10);
 
         table.row();
         table.add(cupCakeCounterLabel).expandX();
@@ -80,14 +82,14 @@ public class HUD {
         this.health = health;
     }
     //Kerätään kuppikakku
-    public void addCupcake(){
+    public static void addCupcake(){
         cupCakeCounter++;
         cupCakeCounterLabel.setText(String.format("%02d", cupCakeCounter));
         health += 50;
         healthLabel.setText(String.format("%02d", health));
     }
     //Kerätään mangokakku
-    public void addMango(){
+    public static void addMango(){
         mangoCounter++;
         mangoLabel.setText(String.format("%02d", mangoCounter));
         health += 100;
@@ -99,7 +101,7 @@ public class HUD {
         healthLabel.setText(String.format("%02d", health));
     }
     //Ydinjätetynnyriin osuminen aiheuttaa elämän vähenemisen
-    public void wasteHit(){
+    public static void wasteHit(){
         health -= 100;
         healthLabel.setText(String.format("%02d", health));
     }

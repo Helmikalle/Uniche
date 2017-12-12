@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.HUD;
 import main.java.uniche.utils.Skaalausta;
 
+import static main.java.uniche.HUD.wasteHit;
+
 
 public class HarmfulItems {
 
@@ -35,7 +37,6 @@ public class HarmfulItems {
     }
 
     public void poimittu (){
-
         System.out.println("DAMaGE CONTROL");
     }
 }

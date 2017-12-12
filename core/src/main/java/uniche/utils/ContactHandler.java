@@ -26,6 +26,7 @@ public class ContactHandler implements ContactListener {
         }
         cupcake.poimittu();
         cupcake.kerätty();
+
         }
     }
 
