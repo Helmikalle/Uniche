@@ -98,5 +98,10 @@ public class HUD {
         health--;
         healthLabel.setText(String.format("%02d", health));
     }
+    //Ydinjätetynnyriin osuminen aiheuttaa elämän vähenemisen
+    public void wasteHit(){
+        health -= 100;
+        healthLabel.setText(String.format("%02d", health));
+    }
 
 }

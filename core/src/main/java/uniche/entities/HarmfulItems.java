@@ -9,7 +9,6 @@ public class HarmfulItems {
 
     public Body waste;
     public String id;
-    private HUD hud;
 
     public HarmfulItems(World world, String id, float x, float y){
         this.id = id;
@@ -38,8 +37,5 @@ public class HarmfulItems {
     public void poimittu (){
 
         System.out.println("DAMaGE CONTROL");
-    }
-    public void wasteHit(){
-        hud.setHealth(hud.getHealth()-100);
     }
 }
