@@ -40,7 +40,6 @@ public class HarmfulItems {
         System.out.println("DAMaGE CONTROL");
     }
     public void wasteHit(){
-        hud = new HUD();
         hud.setHealth(hud.getHealth()-100);
     }
 }
