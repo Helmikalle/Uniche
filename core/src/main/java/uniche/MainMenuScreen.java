@@ -34,7 +34,7 @@ public class MainMenuScreen implements Screen {
 //piiretään menuun valintanäppäimet
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0, 0.1f, 1);
+        Gdx.gl.glClearColor(102/255f, 4/255f, 4/255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -77,6 +77,7 @@ public class MainMenuScreen implements Screen {
             System.exit(0);
         }
     }
+
 
     @Override
     public void resize(int width, int height) {

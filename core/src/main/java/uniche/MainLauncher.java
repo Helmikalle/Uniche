@@ -12,7 +12,7 @@ public class MainLauncher extends Game {
         batch = new SpriteBatch();
         //Default font Arial
         font = new BitmapFont();
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new LogoScreen(this));
     }
 
     public void render() {
@@ -22,6 +22,7 @@ public class MainLauncher extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        this.getScreen().dispose();
     }
 
 }
