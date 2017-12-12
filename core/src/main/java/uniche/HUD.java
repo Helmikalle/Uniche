@@ -74,4 +74,9 @@ public class HUD {
         healthLabel.setText(String.format("%02d", health));
     }
 
+    public static void reduceHealth(){
+        health--;
+        healthLabel.setText(String.format("%02d", health));
+    }
+
 }

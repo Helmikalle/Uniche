@@ -160,10 +160,6 @@ public class GameScreen implements Screen {
         //TÄSTÄ SAA COLLISION LAYERIT NÄKYMÄÄN
 //        b2Render.render(world,camera.combined.scl(Scaler));
 
-
-
-
-
         // kysely random kuppikakuista ei tule itse peliin - Kalle
         //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
         //Pistin vähän lisää healthbariin elämää :D ja lisäsin toiminnallisuuden
@@ -243,7 +239,7 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) ||
                 Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            healthBar -= 1;
+            hud.reduceHealth();
 
     }
 
