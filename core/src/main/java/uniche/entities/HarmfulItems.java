@@ -1,12 +1,15 @@
 package main.java.uniche.entities;
 
 import com.badlogic.gdx.physics.box2d.*;
+import main.java.uniche.HUD;
 import main.java.uniche.utils.Skaalausta;
+
 
 public class HarmfulItems {
 
     public Body waste;
     public String id;
+    private HUD hud;
 
     public HarmfulItems(World world, String id, float x, float y){
         this.id = id;
@@ -35,5 +38,9 @@ public class HarmfulItems {
     public void poimittu (){
 
         System.out.println("DAMaGE CONTROL");
+    }
+    public void wasteHit(){
+        hud = new HUD();
+        hud.setHealth(hud.getHealth()-100);
     }
 }

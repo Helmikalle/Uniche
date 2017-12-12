@@ -38,8 +38,6 @@ public class GameScreen implements Screen {
     private Animation animation;
     private float timePassed = 0;
     private TextureAtlas poniAtlasYlos,poniAtlasAlas,poniAtlasVasen,poniAtlasOikea;
-    private int cupcakeCounter = 0;
-    private int healthBar = 4000;
     private Box2DDebugRenderer b2Render;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap tiledMap;
@@ -130,14 +128,6 @@ public class GameScreen implements Screen {
 //        completeLevel();
 //        setBorders();
         game.batch.begin();
-        if (healthBar <= 0) {
-            game.setScreen(new GameOverScreen(game));
-        }
-        //Nää pitäis saada ruutuun kiinni varmaan mielummin ku poniin -Kalle
-        game.font.draw(game.batch, "CUPCAKES: ", pony.pony.getPosition().x - 185, pony.pony.getPosition().y + 110);
-        game.font.draw(game.batch, String.valueOf(cupcakeCounter), pony.pony.getPosition().x - 95, pony.pony.getPosition().y + 110);
-        game.font.draw(game.batch, "HEALTH: ", pony.pony.getPosition().x - 185, pony.pony.getPosition().y + 90);
-        game.font.draw(game.batch, String.valueOf(healthBar), pony.pony.getPosition().x - 120, pony.pony.getPosition().y + 90);
 
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
         game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
@@ -293,7 +283,7 @@ public class GameScreen implements Screen {
 
     //Peli loppuu ja siirtyy "Game over"-näkymään, jos health bar tyhjenee -Titta
     private void gameOver(){
-        if (healthBar <= 0){
+        if (hud.getHealth() <= 0){
             game.setScreen(new GameOverScreen(game));}
     }
     //Peli voidaan keskeyttää painamalla esc:iä -Titta

@@ -12,19 +12,21 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import main.java.uniche.utils.Skaalausta;
 
+//HUD (head-up display) tai "Status Bar"
 public class HUD {
     public Stage stage;
     private Viewport viewport;
 
-    private static int cupCakeCounter;
-    private static int mangoCounter;
-    private static int health;
+    //HUD:ssa kuppikakkulaskuri, mangokakkulaskuri ja elämäpalkki
+    private int cupCakeCounter;
+    private int mangoCounter;
+    private int health;
 
-    private static Label cupCakeCounterLabel;
+    private Label cupCakeCounterLabel;
     private Label cupcakeTextLabel;
-    private static Label healthLabel;
+    private Label healthLabel;
     private Label healthTextLabel;
-    private static Label mangoLabel;
+    private Label mangoLabel;
     private Label mangoTextLabel;
 
     public HUD(){
@@ -36,6 +38,7 @@ public class HUD {
         viewport = new FitViewport(w/2, h/2, new OrthographicCamera());
         stage = new Stage(viewport);
 
+        //Laitetaan HUD:in osat taulukkoon (actor)
         Table table = new Table();
         table.top();
         table.setFillParent(true);
@@ -56,25 +59,42 @@ public class HUD {
         table.add(mangoLabel).expandX();
         table.add(healthLabel).expandX();
 
+        //Asetetaan actor (taulukko) stagelle
         stage.addActor(table);
 
     }
 
-    public static void addCupcake(){
+    public int getCupCakeCounter() {
+        return cupCakeCounter;
+    }
+
+    public int getMangoCounter() {
+        return mangoCounter;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+    //Kerätään kuppikakku
+    public void addCupcake(){
         cupCakeCounter++;
         cupCakeCounterLabel.setText(String.format("%02d", cupCakeCounter));
         health += 50;
         healthLabel.setText(String.format("%02d", health));
     }
-
-    public static void addMango(){
+    //Kerätään mangokakku
+    public void addMango(){
         mangoCounter++;
         mangoLabel.setText(String.format("%02d", mangoCounter));
         health += 100;
         healthLabel.setText(String.format("%02d", health));
     }
-
-    public static void reduceHealth(){
+    //Heikennetään terveyttä kävellessä
+    public void reduceHealth(){
         health--;
         healthLabel.setText(String.format("%02d", health));
     }
