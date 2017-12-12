@@ -108,6 +108,7 @@ public class GameScreen implements Screen {
         horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.pony.getAngle(),60);
         horn.setSoftnessLength(0f);
         horn.attachToBody(pony.pony);
+        horn.setContactFilter((short)1,(short)0,(short)8);
     }
 
 
@@ -190,6 +191,7 @@ public class GameScreen implements Screen {
     }
 
     public void update(float delta) {
+
         world.step(1/60f,6,2);
         rayHandler.update();
         inputUpdate(delta);

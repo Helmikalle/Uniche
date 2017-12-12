@@ -20,7 +20,13 @@ public class TiledKartta  {
             BodyDef bdef = new BodyDef();
             bdef.type = BodyDef.BodyType.StaticBody;
             body = world.createBody(bdef);
-            body.createFixture(shape,1.0f);
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = shape;
+            fixtureDef.density = 1.0f;
+            fixtureDef.filter.maskBits= 1;
+            fixtureDef.filter.groupIndex= 0;
+            fixtureDef.filter.categoryBits = 8;
+            body.createFixture(fixtureDef);
             shape.dispose();
         }
     }

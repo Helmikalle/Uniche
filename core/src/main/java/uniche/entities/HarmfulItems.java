@@ -26,12 +26,14 @@ public class HarmfulItems {
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
         fixture.density = 1.0f;
+        fixture.isSensor = true;
 
         this.waste = world.createBody(bdef);
         this.waste.createFixture(fixture).setUserData(this);
     }
 
     public void poimittu (){
+
         System.out.println("DAMaGE CONTROL");
     }
 }

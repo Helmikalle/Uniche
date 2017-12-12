@@ -7,6 +7,11 @@ public class Cakes {
 
     public Body cake;
     public String id;
+    private float mangocounter;
+    private float cupcakecpunter;
+    private boolean isSetToDestroy = false;
+    private boolean isDestroyed = false;
+    private float stateTime;
 
     public Cakes (World world, String id, float x, float y){
         this.id = id;
@@ -26,12 +31,26 @@ public class Cakes {
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
         fixture.density = 1.0f;
+        fixture.isSensor = true;
 
         this.cake = world.createBody(bdef);
         this.cake.createFixture(fixture).setUserData(this);
+
+    }
+    public void update(World world,float dt){
+        stateTime += dt;
+        if(isSetToDestroy && !isDestroyed){
+            world.destroyBody((Body) cake.getUserData());
+            isDestroyed = true;
+            stateTime = 0;
+        }
+    }
+    public void poimittu () {
+        System.out.println(id + " TRIGGERED");
+        isSetToDestroy = true;
     }
 
-    public void poimittu (){
-        System.out.println("Poimittu");
+    public void kerätty(){
+        isDestroyed = true;
     }
 }
