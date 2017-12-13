@@ -65,21 +65,10 @@ public class HUD {
 
     }
 
-    public int getCupCakeCounter() {
-        return cupCakeCounter;
-    }
-
-    public int getMangoCounter() {
-        return mangoCounter;
-    }
-
     public int getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
     //Kerätään kuppikakku
     public static void addCupcake(){
         cupCakeCounter++;

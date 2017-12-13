@@ -47,8 +47,8 @@ public class GameScreen implements Screen {
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
     private InvisLever lever;
-    private Doors doorObj;
-    private Doors door;
+    private Door doorObj;
+    private Door door;
 
 
     public GameScreen(final MainLauncher game) {
@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
 
         //OVI + KYTKIN
         lever = new InvisLever(world,"PIILOKYTKIN",23.5f,24);
-        doorObj = new Doors(world,"ovi1",lever.lever.getPosition().x ,lever.lever.getPosition().y -1f);
+        doorObj = new Door(world,"ovi1",lever.lever.getPosition().x ,lever.lever.getPosition().y -1f);
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
@@ -130,9 +130,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tmr.render();
 
-//        leverChange();
-//        completeLevel();
-//        setBorders();
         game.batch.begin();
 
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
@@ -177,7 +174,7 @@ public class GameScreen implements Screen {
     public void update(float delta) {
 
         world.step(1/60f,6,2);
-        //LISÄTTY if-lauseet, jotta kakut katoaa
+        //Kakut katoavat poimittaessa
         for (Cake cakeObj : cakeList){
             if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
         }

@@ -22,8 +22,6 @@ public class MainMenuScreen implements Screen {
     private ShapeRenderer shapeRenderer;
     //private float progress;
 
-
-
 //liikutaan menussa käyttänen nuolinpääimiä ja viereen kuppikakkukuva
     public MainMenuScreen(final MainLauncher game) {
         this.game = game;
@@ -68,7 +66,7 @@ public class MainMenuScreen implements Screen {
         changeOption();
         game.font22.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
         game.font22.draw(game.batch, "START", 390, 250);
-        game.font22.draw(game.batch, "QUIT", 400, 150);
+        game.font22.draw(game.batch, "QUIT", 395, 200);
         game.batch.end();
     }
 

@@ -3,14 +3,14 @@ package main.java.uniche.entities;
 import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.utils.Skaalausta;
 
-public class Doors {
+public class Door {
 
     public Body door;
     public String id;
     private Pony pony;
     public boolean isSetToClose = false;
 
-    public Doors(World world, String id, float x, float y){
+    public Door(World world, String id, float x, float y){
         this.id = id;
         createDoor(world,x,y);
 
