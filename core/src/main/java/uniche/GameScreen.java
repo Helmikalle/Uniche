@@ -85,7 +85,7 @@ public class GameScreen implements Screen {
         lever3 = new InvisLever(world,"PIILOKYTKIN3",26.5f,1.5f);
         doorObj3 = new Door(world,"OVI3",lever3.lever.getPosition().x - 1,lever3.lever.getPosition().y);
         stageLever = new InvisLever(world,"AKTIVOISTAGECOMPLETE" , 9,43);
-        stageComplete = new InvisLever(world,"TASOLÄPÄISTY",23f,43);
+        stageComplete = new InvisLever(world,"TASOLÄPÄISTY",13.9f,49.3f);
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
