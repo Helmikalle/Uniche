@@ -46,9 +46,9 @@ public class GameScreen implements Screen {
     private HUD hud;
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
-    private InvisLever lever,lever2,lever3;
+    private InvisLever lever,lever2,lever3,stageLever,stageComplete;
     private Door doorObj,doorObj2,doorObj3;
-    private Door door;
+
 
 
     public GameScreen(final MainLauncher game) {
@@ -84,6 +84,9 @@ public class GameScreen implements Screen {
         doorObj2 = new Door(world,"ovi2",lever2.lever.getPosition().x,lever2.lever.getPosition().y-1f);
         lever3 = new InvisLever(world,"PIILOKYTKIN3",26.5f,1.5f);
         doorObj3 = new Door(world,"OVI3",lever3.lever.getPosition().x - 1,lever3.lever.getPosition().y);
+        stageLever = new InvisLever(world,"AKTIVOISTAGECOMPLETE" , 9,43);
+        stageComplete = new InvisLever(world,"TASOLÄPÄISTY",23f,43);
+
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
         hud = new HUD();
@@ -196,7 +199,14 @@ public class GameScreen implements Screen {
         for (Cake cakeObj : cakeList){
             if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
         }
-
+        if (stageLever.isSetToClose()){
+            stageComplete.lever.setActive(true);
+        }else {
+            stageComplete.lever.setActive(false);
+        }
+        if (stageComplete.isSetToClose()){
+            game.setScreen(new GameOverScreen(game));
+        }
         if(lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
             doorObj.door.setActive(true); doorObj2.door.setActive(true); doorObj3.door.setActive(true);
         }else{
