@@ -1,6 +1,7 @@
 package main.java.uniche;
 
 import box2dLight.ConeLight;
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -43,6 +44,7 @@ public class GameScreen implements Screen {
     private TiledMap tiledMap;
     private RayHandler rayHandler;
     private ConeLight horn;
+    private PointLight leverLight;
     private HUD hud;
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
@@ -122,6 +124,10 @@ public class GameScreen implements Screen {
         horn.setSoftnessLength(0f);
         horn.attachToBody(pony.pony);
         horn.setContactFilter((short)1,(short)0,(short)8);
+
+        //stageLeverin VALO
+
+        leverLight = new PointLight(rayHandler, 120, Color.RED,1,stageLever.lever.getPosition().x + .05f,stageLever.lever.getPosition().y);
     }
 
     @Override
@@ -205,6 +211,7 @@ public class GameScreen implements Screen {
         }
         if (stageLever.isSetToClose()){
             stageComplete.lever.setActive(true);
+            leverLight.setActive(false);
         }else {
             stageComplete.lever.setActive(false);
         }
