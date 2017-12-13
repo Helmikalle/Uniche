@@ -5,15 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import main.java.uniche.utils.Skaalausta;
 
 //HUD (head-up display) tai "Status Bar"
 public class HUD {
@@ -73,14 +70,14 @@ public class HUD {
     public static void addCupcake(){
         cupCakeCounter++;
         cupCakeCounterLabel.setText(String.format("%02d", cupCakeCounter));
-        health += 50;
+        health += 150;
         healthLabel.setText(String.format("%02d", health));
     }
     //Kerätään mangokakku
     public static void addMango(){
         mangoCounter++;
         mangoLabel.setText(String.format("%02d", mangoCounter));
-        health += 100;
+        health += 300;
         healthLabel.setText(String.format("%02d", health));
     }
     //Heikennetään terveyttä kävellessä

@@ -30,15 +30,15 @@ import java.util.List;
 import static main.java.uniche.utils.Skaalausta.Scaler;
 
 public class GameScreen implements Screen {
-    private static final double DEGREES_TO_RADIANS = (double)(Math.PI/180);
+    private static final double DEGREES_TO_RADIANS = (double) (Math.PI / 180);
     private World world;
     final MainLauncher game;
-    private Texture cupcakeimg,wasteimg,mangocakeimg,oviimg,kytkinimg;
+    private Texture cupcakeimg, wasteimg, mangocakeimg, oviimg, kytkinimg;
     private OrthographicCamera camera;
     private Pony pony;
     private Animation animation;
     private float timePassed = 0;
-    private TextureAtlas poniAtlasYlos,poniAtlasAlas,poniAtlasVasen,poniAtlasOikea;
+    private TextureAtlas poniAtlasYlos, poniAtlasAlas, poniAtlasVasen, poniAtlasOikea;
     private Box2DDebugRenderer b2Render;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap tiledMap;
@@ -48,46 +48,51 @@ public class GameScreen implements Screen {
     private HUD hud;
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
-    private InvisLever lever,lever2,lever3,stageLever,stageComplete;
-    private Door doorObj,doorObj2,doorObj3;
-
+    private InvisLever lever, lever2, lever3, stageLever, stageComplete;
+    private Door doorObj, doorObj2, doorObj3;
 
 
     public GameScreen(final MainLauncher game) {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         this.game = game;
-        world = new World(new Vector2(0,0),false);
+        world = new World(new Vector2(0, 0), false);
         this.world.setContactListener(new ContactHandler());
 
         //Kakkulista -Titta
         cakeList = new ArrayList<Cake>();
-        cakeList.add(new Cake(world,"CUPCAKE",8,8));
-        cakeList.add(new Cake(world,"CUPCAKE",9,8));
-        cakeList.add(new Cake(world,"MANGO",8,5));
-        cakeList.add(new Cake(world,"MANGO",9,5));
-
-//        cakeList.add(new Cake(world,"CUPCAKE",20,20));
-//        cakeList.add(new Cake(world,"CUPCAKE",15,14));
-//        cakeList.add(new Cake(world,"CUPCAKE",5,5));
+        cakeList.add(new Cake(world, "CUPCAKE", 31, 6));
+        cakeList.add(new Cake(world, "CUPCAKE", 34, 28));
+        cakeList.add(new Cake(world, "MANGO", 34, 29));
+        cakeList.add(new Cake(world, "MANGO", 34, 38));
+        cakeList.add(new Cake(world, "CUPCAKE", 39, 29));
+        cakeList.add(new Cake(world, "CUPCAKE", 8, 30));
+        cakeList.add(new Cake(world, "CUPCAKE", 47, 42));
+        cakeList.add(new Cake(world, "MANGO", 2, 38));
 
         //Jätetynnyrilista -Titta
         wasteList = new ArrayList<HarmfulItem>();
-        wasteList.add(new HarmfulItem(world,"WASTEBARREL",8,1.5f));
-        wasteList.add(new HarmfulItem(world,"WASTEBARREL",9,1.5f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 8, 28f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 30, 10f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 2, 36));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 37.5f, 46.5f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 40.5f, 46.5f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 38.5f, 41.5f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 38.5f, 42.5f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 39.5f, 42.5f));
 
         //Unicorn
-        pony = new Pony(world,"UNICORN",2,2);
+        pony = new Pony(world, "UNICORN", 2, 2);
 
         //OVI + KYTKIN -Kalle
-        lever = new InvisLever(world,"PIILOKYTKIN1",24.5f,36.5f);
-        doorObj = new Door(world,"ovi1",lever.lever.getPosition().x ,lever.lever.getPosition().y -1f);
-        lever2 = new InvisLever(world,"PIILOKYTKIN2",13.5f,36.5f);
-        doorObj2 = new Door(world,"ovi2",lever2.lever.getPosition().x,lever2.lever.getPosition().y-1f);
-        lever3 = new InvisLever(world,"PIILOKYTKIN3",26.5f,1.5f);
-        doorObj3 = new Door(world,"OVI3",lever3.lever.getPosition().x - 1,lever3.lever.getPosition().y);
-        stageLever = new InvisLever(world,"AKTIVOISTAGECOMPLETE" , 39,45.5f);
-        stageComplete = new InvisLever(world,"TASOLÄPÄISTY",13.9f,49.3f);
+        lever = new InvisLever(world, "PIILOKYTKIN1", 24.5f, 36.5f);
+        doorObj = new Door(world, "ovi1", lever.lever.getPosition().x, lever.lever.getPosition().y - 1f);
+        lever2 = new InvisLever(world, "PIILOKYTKIN2", 13.5f, 36.5f);
+        doorObj2 = new Door(world, "ovi2", lever2.lever.getPosition().x, lever2.lever.getPosition().y - 1f);
+        lever3 = new InvisLever(world, "PIILOKYTKIN3", 26.5f, 1.5f);
+        doorObj3 = new Door(world, "OVI3", lever3.lever.getPosition().x - 1, lever3.lever.getPosition().y);
+        stageLever = new InvisLever(world, "AKTIVOISTAGECOMPLETE", 39, 45.5f);
+        stageComplete = new InvisLever(world, "TASOLÄPÄISTY", 13.9f, 49.3f);
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
@@ -104,7 +109,7 @@ public class GameScreen implements Screen {
         poniAtlasAlas = new TextureAtlas(Gdx.files.internal("core/assets/ponitaakse/ponialas.atlas"));
         poniAtlasVasen = new TextureAtlas(Gdx.files.internal("core/assets/ponivasemmalle/ponivasen.atlas"));
         poniAtlasOikea = new TextureAtlas(Gdx.files.internal("core/assets/ponioikealle/ponioikea.atlas"));
-        animation = new Animation(1/ 30f, poniAtlasOikea.getRegions());
+        animation = new Animation(1 / 30f, poniAtlasOikea.getRegions());
 
         //Tuodaan kartta -Kalle
         tiledMap = new TmxMapLoader().load("core/assets/uudetkartat/kolmaskartta.tmx");
@@ -112,7 +117,7 @@ public class GameScreen implements Screen {
 
 
         //TÄSSÄ TUODAAN TÖRMÄTTÄVÄT REUNAT -Kalle
-        TiledKartta.parseTiledMap(world,tiledMap.getLayers()
+        TiledKartta.parseTiledMap(world, tiledMap.getLayers()
                 .get("objektit").getObjects());
 
         //TÄMÄ TUO HIMMENNYKSEN -Kalle
@@ -120,13 +125,13 @@ public class GameScreen implements Screen {
         rayHandler.setAmbientLight(.1f);
 
         //LUODAAN ETEENPÄIN NÄYTTÄVÄ VALO -Kalle
-        horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.pony.getAngle(),60);
+        horn = new ConeLight(rayHandler, 120, Color.WHITE, 8, 0, 0, pony.pony.getAngle(), 60);
         horn.setSoftnessLength(0f);
         horn.attachToBody(pony.pony);
-        horn.setContactFilter((short)1,(short)0,(short)8);
+        horn.setContactFilter((short) 1, (short) 0, (short) 8);
 
         //stageLeverin VALO -Kalle
-        leverLight = new PointLight(rayHandler, 120, Color.RED,1,stageLever.lever.getPosition().x + .05f,stageLever.lever.getPosition().y);
+        leverLight = new PointLight(rayHandler, 120, Color.RED, 1, stageLever.lever.getPosition().x + .05f, stageLever.lever.getPosition().y);
     }
 
     @Override
@@ -146,29 +151,31 @@ public class GameScreen implements Screen {
         game.batch.begin();
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
         //WASTE -Titta
-        for (HarmfulItem wasteBarrel : wasteList){
-            game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
+        for (HarmfulItem wasteBarrel : wasteList) {
+            game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16, wasteBarrel.waste.getPosition().y * Scaler - 16);
         }
         //KAKUT -Titta
-        for (Cake cakeObj : cakeList){
-            if (cakeObj.id.equals("CUPCAKE")){
-                if(!cakeObj.isSetToDestroy()) game.batch.draw(cupcakeimg,cakeObj.cake.getPosition().x * Scaler -16,cakeObj.cake.getPosition().y * Scaler -16);
-            } else if (cakeObj.id.equals("MANGO")){
-                if(!cakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler -16);
+        for (Cake cakeObj : cakeList) {
+            if (cakeObj.id.equals("CUPCAKE")) {
+                if (!cakeObj.isSetToDestroy())
+                    game.batch.draw(cupcakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler - 16);
+            } else if (cakeObj.id.equals("MANGO")) {
+                if (!cakeObj.isSetToDestroy())
+                    game.batch.draw(mangocakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler - 16);
             }
         }
 
         //TÄSSÄ TUODAAN OVET KUN KÄVELLÄÄN LÄPI OVIAUKOSTA -Kalle
-        if(lever.isSetToClose() || lever2.isSetToClose()||lever3.isSetToClose()) {
+        if (lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
             game.batch.draw(oviimg, doorObj.door.getPosition().x * Scaler - 16,
                     doorObj.door.getPosition().y * Scaler - 16);
-            game.batch.draw(oviimg,doorObj2.door.getPosition().x * Scaler -16,
-                    doorObj2.door.getPosition().y * Scaler -16);
-            game.batch.draw(oviimg,doorObj3.door.getPosition().x * Scaler - 16,
-                    doorObj3.door.getPosition().y * Scaler -16);
+            game.batch.draw(oviimg, doorObj2.door.getPosition().x * Scaler - 16,
+                    doorObj2.door.getPosition().y * Scaler - 16);
+            game.batch.draw(oviimg, doorObj3.door.getPosition().x * Scaler - 16,
+                    doorObj3.door.getPosition().y * Scaler - 16);
 
         }
-        game.batch.draw(kytkinimg,stageLever.lever.getPosition().x * Scaler -14,stageLever.lever.getPosition().y * Scaler -14);
+        game.batch.draw(kytkinimg, stageLever.lever.getPosition().x * Scaler - 14, stageLever.lever.getPosition().y * Scaler - 14);
         game.batch.end();
 
         //TUODAAN VALO "horn" PONILLE -Kalle
@@ -177,7 +184,7 @@ public class GameScreen implements Screen {
         //TULOSTETAAN PONI ERIKSEEN KOSKA VALO -Kalle
         game.batch.begin();
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
-                pony.pony.getPosition().x * Scaler  - 16, pony.pony.getPosition().y * Scaler - 16);
+                pony.pony.getPosition().x * Scaler - 16, pony.pony.getPosition().y * Scaler - 16);
         game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
@@ -192,7 +199,7 @@ public class GameScreen implements Screen {
 
     }
 
-       //Kamera seuraa ponia -Kalle
+    //Kamera seuraa ponia -Kalle
     public void cameraUpdate(float delta) {
         Vector3 position = camera.position;
         position.x = pony.pony.getPosition().x * Scaler;
@@ -201,30 +208,35 @@ public class GameScreen implements Screen {
 
         camera.update();
     }
-        //tätä kutsutaan renderissä
+
+    //tätä kutsutaan renderissä
     public void update(float delta) {
 
-        world.step(1/60f,6,2);
+        world.step(1 / 60f, 6, 2);
         //LISÄTTY if-lauseet, jotta kakut katoaa
-        for (Cake cakeObj : cakeList){
-            if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
+        for (Cake cakeObj : cakeList) {
+            if (cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
         }
         //TASON LÄPÄISYÄ VAATIVAN NAPPULAN AKTIVOIMINEN -Kalle
-        if (stageLever.isSetToClose()){
+        if (stageLever.isSetToClose()) {
             stageComplete.lever.setActive(true);
             leverLight.setActive(false);
-        }else {
+        } else {
             stageComplete.lever.setActive(false);
         }
         //TASO LÄPI GoodGame -KAlle
-        if (stageComplete.isSetToClose()){
+        if (stageComplete.isSetToClose()) {
             game.setScreen(new GameOverScreen(game));
         }
         //ENSIMMÄINEN OSA KARTTAA SULJETTU JOS MENEE TIETYISTÄ OVISTA LÄPI -Kalle
-        if(lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
-            doorObj.door.setActive(true); doorObj2.door.setActive(true); doorObj3.door.setActive(true);
-        }else{
-            doorObj.door.setActive(false);doorObj2.door.setActive(false);doorObj3.door.setActive(false);
+        if (lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
+            doorObj.door.setActive(true);
+            doorObj2.door.setActive(true);
+            doorObj3.door.setActive(true);
+        } else {
+            doorObj.door.setActive(false);
+            doorObj2.door.setActive(false);
+            doorObj3.door.setActive(false);
         }
         rayHandler.update();
         inputUpdate(delta);
@@ -243,34 +255,34 @@ public class GameScreen implements Screen {
     public void inputUpdate(float delta) {
         float angle;
         int horizontalForce = 0;
-        int verticalForce =0;
+        int verticalForce = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            horizontalForce -=1;
+            horizontalForce -= 1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasVasen.getRegions());
-            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (180*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (180 * DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            horizontalForce +=1;
+            horizontalForce += 1;
             timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasOikea.getRegions());
-            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (360*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (360 * DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            verticalForce +=1;
-            timePassed = 100 *  Gdx.graphics.getDeltaTime();
+            verticalForce += 1;
+            timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasYlos.getRegions());
-            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (90*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (90 * DEGREES_TO_RADIANS));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            verticalForce -=1;
-            timePassed = 100* Gdx.graphics.getDeltaTime();
+            verticalForce -= 1;
+            timePassed = 100 * Gdx.graphics.getDeltaTime();
             animation = new Animation(1 / 30f, poniAtlasAlas.getRegions());
-            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (270*DEGREES_TO_RADIANS));
+            pony.pony.setTransform(pony.pony.getWorldCenter(), angle = (float) (270 * DEGREES_TO_RADIANS));
         }
 
-        pony.pony.setLinearVelocity(verticalForce * 5,pony.pony.getLinearVelocity().y);
-        pony.pony.setLinearVelocity(horizontalForce * 5,pony.pony.getLinearVelocity().x);
+        pony.pony.setLinearVelocity(verticalForce * 5, pony.pony.getLinearVelocity().y);
+        pony.pony.setLinearVelocity(horizontalForce * 5, pony.pony.getLinearVelocity().x);
 
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) ||
@@ -282,7 +294,7 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         camera.setToOrtho(false,
-                width/2 , height/2);
+                width / 2, height / 2);
     }
 
     @Override
@@ -312,13 +324,15 @@ public class GameScreen implements Screen {
     }
 
     //Peli loppuu ja siirtyy "Game over"-näkymään, jos health bar tyhjenee -Titta
-    private void gameOver(){
-        if (hud.getHealth() <= 0){
-            game.setScreen(new GameOverScreen(game));}
+    private void gameOver() {
+        if (hud.getHealth() <= 0) {
+            game.setScreen(new GameOverScreen(game));
+        }
     }
+
     //Peli voidaan keskeyttää painamalla esc:iä -Titta
-    private void exitGame(){
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+    private void exitGame() {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new MainMenuScreen(game));
         }
     }
