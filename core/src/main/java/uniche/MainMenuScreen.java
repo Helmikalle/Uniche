@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.awt.*;
 
@@ -18,20 +19,42 @@ public class MainMenuScreen implements Screen {
     private String[] options = {
             "START",
             "QUIT"};
+    private ShapeRenderer shapeRenderer;
+    //private float progress;
+
+
 
 //liikutaan menussa käyttänen nuolinpääimiä ja viereen kuppikakkukuva
     public MainMenuScreen(final MainLauncher game) {
         this.game = game;
+        this.shapeRenderer = new ShapeRenderer();
+        //this.progress = 0f;
+
+
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+
+        queueAssets();
+    }
+    private void queueAssets() {
+        game.assets.load("core/assets/logo/uusiunichee(1).png", Texture.class);
     }
 
     @Override
     public void show() {
 
     }
-//piiretään menuun valintanäppäimet
+
+    public void update(float delta) {
+        if (game.assets.update()) {
+            game.setScreen(new LogoScreen(game));
+        }
+        //progress = game.assets.getProgress();
+    }
+
+
+    //piiretään menuun valintanäppäimet
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(102/255f, 4/255f, 4/255f, 1f);
@@ -43,9 +66,9 @@ public class MainMenuScreen implements Screen {
 
         game.batch.begin();
         changeOption();
-        game.font.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
-        game.font.draw(game.batch, "START", 390, 250);
-        game.font.draw(game.batch, "QUIT", 395, 200);
+        game.font22.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
+        game.font22.draw(game.batch, "START", 390, 250);
+        game.font22.draw(game.batch, "QUIT", 400, 150);
         game.batch.end();
     }
 
@@ -101,6 +124,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        shapeRenderer.dispose();
 
     }
 }

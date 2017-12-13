@@ -42,9 +42,9 @@ public class GameOverScreen implements Screen {
 
         game.batch.begin();
 
-        game.font.draw(game.batch, "GAME OVER", 335, 300);
-        game.font.draw(game.batch, "NEW GAME", 390, 250);
-        game.font.draw(game.batch, "QUIT", 395, 200);
+        game.font22.draw(game.batch, "GAME OVER", 335, 300);
+        game.font22.draw(game.batch, "NEW GAME", 390, 250);
+        game.font22.draw(game.batch, "QUIT", 395, 200);
         changeOption();
 
         game.batch.end();
