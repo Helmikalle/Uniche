@@ -15,14 +15,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import main.java.uniche.entities.Cake;
-import main.java.uniche.entities.HarmfulItem;
-import main.java.uniche.entities.Pony;
+import main.java.uniche.entities.*;
 import main.java.uniche.utils.ContactHandler;
 import main.java.uniche.utils.TiledKartta;
 
@@ -44,12 +41,14 @@ public class GameScreen implements Screen {
     private Box2DDebugRenderer b2Render;
     private OrthogonalTiledMapRenderer tmr;
     private TiledMap tiledMap;
-    private Rectangle lever,door;
     private RayHandler rayHandler;
     private ConeLight horn;
     private HUD hud;
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
+    private InvisLever lever;
+    private Doors doorObj;
+    private Doors door;
 
 
     public GameScreen(final MainLauncher game) {
@@ -78,6 +77,10 @@ public class GameScreen implements Screen {
         //Unicorn
         pony = new Pony(world,"UNICORN",2,2);
 
+        //OVI + KYTKIN
+        lever = new InvisLever(world,"PIILOKYTKIN",23.5f,24);
+        doorObj = new Doors(world,"ovi1",lever.lever.getPosition().x ,lever.lever.getPosition().y -1f);
+
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
         hud = new HUD();
@@ -101,18 +104,6 @@ public class GameScreen implements Screen {
         //TÄSSÄ TUODAAN TÖRMÄTTÄVÄT REUNAT -Kalle
         TiledKartta.parseTiledMap(world,tiledMap.getLayers()
                 .get("objektit").getObjects());
-
-        lever = new Rectangle();
-        lever.x = 300;
-        lever.y = 150;
-        lever.width = 32/2;
-        lever.height = 32/2;
-
-        door = new Rectangle();
-        door.x = 360;
-        door.y = 150;
-        door.width = 32/2;
-        door.height = 32/2;
 
         //TÄMÄ TUO HIMMENNYKSEN
         rayHandler = new RayHandler(world);
@@ -189,6 +180,12 @@ public class GameScreen implements Screen {
         //LISÄTTY if-lauseet, jotta kakut katoaa
         for (Cake cakeObj : cakeList){
             if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
+        }
+
+        if(lever.isSetToClose()) {
+            doorObj.door.setActive(true);
+        }else{
+            doorObj.door.setActive(false);
         }
         rayHandler.update();
         inputUpdate(delta);

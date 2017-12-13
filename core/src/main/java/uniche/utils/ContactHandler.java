@@ -4,6 +4,7 @@ package main.java.uniche.utils;
 import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.entities.Cake;
 import main.java.uniche.entities.HarmfulItem;
+import main.java.uniche.entities.InvisLever;
 import main.java.uniche.entities.Pony;
 
 public class ContactHandler implements ContactListener {
@@ -26,7 +27,6 @@ public class ContactHandler implements ContactListener {
             cupcake = (Cake) figureB.getUserData();
         }
         cupcake.poimittu();
-        cupcake.kerätty();
 
         }
         if (playerCollisionWaste(figureA,figureB)){
@@ -42,6 +42,20 @@ public class ContactHandler implements ContactListener {
             wasteBarrel.wastePoimittu();
 
         }
+        if (doorLeverContact(figureA,figureB)){
+            Pony unicorn;
+            InvisLever lever;
+            if (figureA.getUserData() instanceof InvisLever){
+                lever = (InvisLever) figureA.getUserData();
+                unicorn = (Pony) figureB.getUserData();
+            }else {
+                unicorn = (Pony) figureA.getUserData();
+                lever = (InvisLever) figureB.getUserData();
+            }
+            lever.painettu();
+
+        }
+
     }
 
     @Override
@@ -79,6 +93,13 @@ public class ContactHandler implements ContactListener {
             if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony) {
                 return true;
             }
+        }
+        return false;
+    }
+    private boolean doorLeverContact(Fixture a, Fixture b){
+        if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony){
+            if (a.getUserData() instanceof InvisLever || b.getUserData() instanceof InvisLever)
+                return true;
         }
         return false;
     }

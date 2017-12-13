@@ -1,12 +1,7 @@
 package main.java.uniche.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.utils.Skaalausta;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static main.java.uniche.HUD.addCupcake;
 import static main.java.uniche.HUD.addMango;
@@ -15,11 +10,8 @@ public class Cake {
 
     public Body cake;
     public String id;
-    private float mangocounter;
-    private float cupcakecpunter;
     private boolean isSetToDestroy = false;
-    private boolean isDestroyed = false;
-    private float stateTime;
+
 
     //LISÄTTY GETTERI isSetToDestroy:lle, jotta kakut katoaa
     public boolean isSetToDestroy() {
@@ -49,14 +41,6 @@ public class Cake {
         this.cake.createFixture(fixture).setUserData(this);
 
     }
-    public void update(World world,float dt){
-        stateTime += dt;
-        if(isSetToDestroy && !isDestroyed){
-            world.destroyBody((Body) cake.getUserData());
-            isDestroyed = true;
-            stateTime = 0;
-        }
-    }
     public void poimittu () {
         System.out.println(id + " TRIGGERED");
         if (id.equals("CUPCAKE")) {
@@ -67,7 +51,4 @@ public class Cake {
         isSetToDestroy = true;
     }
 
-    public void kerätty(){
-        isDestroyed = true;
-    }
 }
