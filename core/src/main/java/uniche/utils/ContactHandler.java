@@ -10,12 +10,15 @@ import main.java.uniche.entities.Pony;
 public class ContactHandler implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
+
         Fixture figureA = contact.getFixtureA();
         Fixture figureB = contact.getFixtureB();
-
+        //Aloitetaan katsomalla että on oikeasti tapahtunut törmäys
         if (figureA == null || figureB == null) return;
         if (figureA.getUserData() == null || figureB.getUserData() == null) return;
 
+        //Tarkastellaan alempana toteutettu metodi kakun ja pelaajan yhteentörmäyksestä
+        //ja jos toteutuu suoritetaan poiminta
         if (playerCollisionCake(figureA,figureB)){
             Pony unicorn;
             Cake cupcake;
@@ -29,6 +32,8 @@ public class ContactHandler implements ContactListener {
         cupcake.poimittu();
 
         }
+        //Tarkastellaan alempana toteutettua metodia pelaajan ja jätteen törmäyksestä.
+        // Jos toteutuu niin suoritetaan HarmfulItem luokassa wastePoimittu -Titta
         if (playerCollisionWaste(figureA,figureB)){
             Pony unicor;
             HarmfulItem wasteBarrel;
@@ -42,6 +47,8 @@ public class ContactHandler implements ContactListener {
             wasteBarrel.wastePoimittu();
 
         }
+        //Tarkastellaan alempana toteutettua metodia
+        // ja jos toteutuu niin suoritetaan nappulan painaminen -Kalle
         if (doorLeverContact(figureA,figureB)){
             Pony unicorn;
             InvisLever lever;
@@ -79,7 +86,7 @@ public class ContactHandler implements ContactListener {
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
-
+        //Katsotaan onko toinen törmääjistä kakku ja toinen poni -Kalle
     private boolean playerCollisionCake(Fixture a, Fixture b) {
         if (a.getUserData() instanceof Cake || b.getUserData() instanceof Cake) {
             if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony) {
@@ -88,6 +95,7 @@ public class ContactHandler implements ContactListener {
         }
         return false;
     }
+    //Katsotaan on törmääjät Pony ja jokin HarmfulItem -Titta
     private boolean playerCollisionWaste(Fixture a, Fixture b) {
         if (a.getUserData() instanceof HarmfulItem || b.getUserData() instanceof HarmfulItem) {
             if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony) {
@@ -96,6 +104,7 @@ public class ContactHandler implements ContactListener {
         }
         return false;
     }
+    //Tässä tarkastellaan onko törmääjät kenties InvisLever ja Pony -Kalle
     private boolean doorLeverContact(Fixture a, Fixture b){
         if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony){
             if (a.getUserData() instanceof InvisLever || b.getUserData() instanceof InvisLever)

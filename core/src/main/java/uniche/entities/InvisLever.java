@@ -4,9 +4,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.GameScreen;
 import main.java.uniche.utils.Skaalausta;
 
-//import static main.java.uniche.HUD.wasteHit;
-
-
 public class InvisLever {
     public Body lever;
     public String id;
@@ -20,6 +17,8 @@ public class InvisLever {
 
     }
 
+    //Luodaan näkymätön nappula jolla suljetaan ovet + kytketään stageComplete päälle sekä käytetään
+    // stageComplete nappulan luomiseen. -Kalle
     private void createLever(World world, float x, float y) {
         BodyDef bdef = new BodyDef();
         bdef.fixedRotation = true;
@@ -38,12 +37,13 @@ public class InvisLever {
         this.lever.createFixture(fixture).setUserData(this);
     }
 
+    //ContactHandler käyttää tätä -Kalle
     public void painettu() {
         System.out.println("DOOR CLOSING");
         isSetToClose = true;
 
     }
-
+    //GETTERI jotta vaoidaan tarkastaa onko true/false -Kalle
     public boolean isSetToClose() {
         return isSetToClose;
     }

@@ -9,6 +9,7 @@ public class Pony {
     public Body pony;
     public String id;
 
+    //TÄLLÄ LUODAAN MEIDÄN UNICORN JA PÄÄSTETÄÄN SE VAPAUTEEN (aka luodaan "world":iin) -Kalle
     public Pony (World world, String id, float x, float y){
         this.id = id;
         createPony(world,x,y);

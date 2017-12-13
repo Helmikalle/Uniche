@@ -1,6 +1,8 @@
 package main.java.uniche.utils;
 
 public final class Skaalausta {
+
+    //Ihan vaan apuna. Vaatii hieman lisä opiskelua jotta opin käyttämään BITejä oikein -Kalle
     public static final float Scaler = 32;
 
     public static final short DEFAULT_BIT = 1;

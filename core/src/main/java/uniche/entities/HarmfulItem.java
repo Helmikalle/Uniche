@@ -1,7 +1,6 @@
 package main.java.uniche.entities;
 
 import com.badlogic.gdx.physics.box2d.*;
-import main.java.uniche.HUD;
 import main.java.uniche.utils.Skaalausta;
 
 import static main.java.uniche.HUD.wasteHit;
@@ -17,7 +16,7 @@ public class HarmfulItem {
         createWaste(world,x,y);
 
     }
-
+        //Luodaan wasteBarrel ja luodaan se "world":iin -Titta
     private void createWaste(World world, float x, float y){
         BodyDef bdef = new BodyDef();
         bdef.fixedRotation =  true;
@@ -35,7 +34,7 @@ public class HarmfulItem {
         this.waste = world.createBody(bdef);
         this.waste.createFixture(fixture).setUserData(this);
     }
-
+        //ContactHandler ja HUD käyttää tätä -Kalle/Titta
     public void wastePoimittu (){
         System.out.println("DAMaGE CONTROL");
         wasteHit();

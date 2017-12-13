@@ -22,7 +22,7 @@ public class Cake {
         this.id = id;
         createCake(world,x,y);
     }
-
+        //ANNETAAN KAKUILLE ARVOT JA LUODAAN SE "world":iin -Kalle
     private void createCake(World world, float x, float y){
         BodyDef bdef = new BodyDef();
         bdef.fixedRotation =  true;
@@ -41,6 +41,7 @@ public class Cake {
         this.cake.createFixture(fixture).setUserData(this);
 
     }
+    //ContactHandler ja HUD käyttää tätä -Kalle/Titta
     public void poimittu () {
         System.out.println(id + " TRIGGERED");
         if (id.equals("CUPCAKE")) {

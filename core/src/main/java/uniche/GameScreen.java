@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0,0),false);
         this.world.setContactListener(new ContactHandler());
 
-        //Kakkulista
+        //Kakkulista -Titta
         cakeList = new ArrayList<Cake>();
         cakeList.add(new Cake(world,"CUPCAKE",8,8));
         cakeList.add(new Cake(world,"CUPCAKE",9,8));
@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
 //        cakeList.add(new Cake(world,"CUPCAKE",15,14));
 //        cakeList.add(new Cake(world,"CUPCAKE",5,5));
 
-        //Jätetynnyrilista
+        //Jätetynnyrilista -Titta
         wasteList = new ArrayList<HarmfulItem>();
         wasteList.add(new HarmfulItem(world,"WASTEBARREL",8,1.5f));
         wasteList.add(new HarmfulItem(world,"WASTEBARREL",9,1.5f));
@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
         //Unicorn
         pony = new Pony(world,"UNICORN",2,2);
 
-        //OVI + KYTKIN
+        //OVI + KYTKIN -Kalle
         lever = new InvisLever(world,"PIILOKYTKIN1",24.5f,36.5f);
         doorObj = new Door(world,"ovi1",lever.lever.getPosition().x ,lever.lever.getPosition().y -1f);
         lever2 = new InvisLever(world,"PIILOKYTKIN2",13.5f,36.5f);
@@ -115,18 +115,17 @@ public class GameScreen implements Screen {
         TiledKartta.parseTiledMap(world,tiledMap.getLayers()
                 .get("objektit").getObjects());
 
-        //TÄMÄ TUO HIMMENNYKSEN
+        //TÄMÄ TUO HIMMENNYKSEN -Kalle
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.1f);
 
-        //LUODAAN ETEENPÄIN NÄYTTÄVÄ VALO
+        //LUODAAN ETEENPÄIN NÄYTTÄVÄ VALO -Kalle
         horn = new ConeLight(rayHandler,120,Color.WHITE,8,0,0,pony.pony.getAngle(),60);
         horn.setSoftnessLength(0f);
         horn.attachToBody(pony.pony);
         horn.setContactFilter((short)1,(short)0,(short)8);
 
-        //stageLeverin VALO
-
+        //stageLeverin VALO -Kalle
         leverLight = new PointLight(rayHandler, 120, Color.RED,1,stageLever.lever.getPosition().x + .05f,stageLever.lever.getPosition().y);
     }
 
@@ -145,7 +144,6 @@ public class GameScreen implements Screen {
         tmr.render();
 
         game.batch.begin();
-
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
         //WASTE -Titta
         for (HarmfulItem wasteBarrel : wasteList){
@@ -159,6 +157,7 @@ public class GameScreen implements Screen {
                 if(!cakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler -16);
             }
         }
+
         //TÄSSÄ TUODAAN OVET KUN KÄVELLÄÄN LÄPI OVIAUKOSTA -Kalle
         if(lever.isSetToClose() || lever2.isSetToClose()||lever3.isSetToClose()) {
             game.batch.draw(oviimg, doorObj.door.getPosition().x * Scaler - 16,
@@ -172,10 +171,10 @@ public class GameScreen implements Screen {
         game.batch.draw(kytkinimg,stageLever.lever.getPosition().x * Scaler -14,stageLever.lever.getPosition().y * Scaler -14);
         game.batch.end();
 
-        //TUODAAN VALO "horn" PONILLE
+        //TUODAAN VALO "horn" PONILLE -Kalle
         rayHandler.render();
 
-        //TULOSTETAAN PONI ERIKSEEN KOSKA VALO
+        //TULOSTETAAN PONI ERIKSEEN KOSKA VALO -Kalle
         game.batch.begin();
         game.batch.draw((TextureRegion) animation.getKeyFrame(timePassed, true),
                 pony.pony.getPosition().x * Scaler  - 16, pony.pony.getPosition().y * Scaler - 16);
@@ -185,14 +184,15 @@ public class GameScreen implements Screen {
         hud.stage.act();
 
 
-        //TÄSSÄ TYÖKALU jOLLA SAA TÖRMÄYSVIIVAT NÄKYVIIN
+        ////-------------------ÄLÄ POISTA---------------------////
+        //TÄSSÄ TYÖKALU jOLLA SAA TÖRMÄYSVIIVAT NÄKYVIIN -Kalle
 //        b2Render.render(world,camera.combined.scl(Scaler));
 
         update(Gdx.graphics.getDeltaTime());
 
     }
 
-    //Kamera seuraa ponia -Kalle
+       //Kamera seuraa ponia -Kalle
     public void cameraUpdate(float delta) {
         Vector3 position = camera.position;
         position.x = pony.pony.getPosition().x * Scaler;
@@ -201,7 +201,7 @@ public class GameScreen implements Screen {
 
         camera.update();
     }
-
+        //tätä kutsutaan renderissä
     public void update(float delta) {
 
         world.step(1/60f,6,2);
@@ -209,15 +209,18 @@ public class GameScreen implements Screen {
         for (Cake cakeObj : cakeList){
             if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
         }
+        //TASON LÄPÄISYÄ VAATIVAN NAPPULAN AKTIVOIMINEN -Kalle
         if (stageLever.isSetToClose()){
             stageComplete.lever.setActive(true);
             leverLight.setActive(false);
         }else {
             stageComplete.lever.setActive(false);
         }
+        //TASO LÄPI GoodGame -KAlle
         if (stageComplete.isSetToClose()){
             game.setScreen(new GameOverScreen(game));
         }
+        //ENSIMMÄINEN OSA KARTTAA SULJETTU JOS MENEE TIETYISTÄ OVISTA LÄPI -Kalle
         if(lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
             doorObj.door.setActive(true); doorObj2.door.setActive(true); doorObj3.door.setActive(true);
         }else{
@@ -234,7 +237,8 @@ public class GameScreen implements Screen {
         tmr.setView(camera);
     }
 
-    //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet. Lisätty vielä bodyn kääntyminen jotta saatiin
+    //PONI LIIKKUU TÄÄLTÄ NYKYÄÄN + Input toiminnallisuudet.
+    // Lisätty vielä bodyn kääntyminen jotta saatiin
     // Cone Light toimimaan -Kalle
     public void inputUpdate(float delta) {
         float angle;

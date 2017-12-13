@@ -5,10 +5,9 @@ import main.java.uniche.utils.Skaalausta;
 
 public class Door {
 
+    //TÄÄLLÄ LUODAAN OVET -Kalle
     public Body door;
     public String id;
-    private Pony pony;
-    public boolean isSetToClose = false;
 
     public Door(World world, String id, float x, float y){
         this.id = id;
@@ -35,11 +34,4 @@ public class Door {
         this.door.createFixture(fixture).setUserData(this);
 
     }
-
-    public boolean isSetToClose () {
-        return true;
-    }
-
-
-
 }
