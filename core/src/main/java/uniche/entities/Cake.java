@@ -1,12 +1,17 @@
 package main.java.uniche.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.*;
 import main.java.uniche.utils.Skaalausta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static main.java.uniche.HUD.addCupcake;
 import static main.java.uniche.HUD.addMango;
 
-public class Cakes {
+public class Cake {
 
     public Body cake;
     public String id;
@@ -21,7 +26,7 @@ public class Cakes {
         return isSetToDestroy;
     }
 
-    public Cakes (World world, String id, float x, float y){
+    public Cake(World world, String id, float x, float y){
         this.id = id;
         createCake(world,x,y);
     }

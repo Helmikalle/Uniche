@@ -20,11 +20,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import main.java.uniche.entities.Cakes;
-import main.java.uniche.entities.HarmfulItems;
+import main.java.uniche.entities.Cake;
+import main.java.uniche.entities.HarmfulItem;
 import main.java.uniche.entities.Pony;
 import main.java.uniche.utils.ContactHandler;
 import main.java.uniche.utils.TiledKartta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static main.java.uniche.utils.Skaalausta.Scaler;
 
@@ -44,9 +47,10 @@ public class GameScreen implements Screen {
     private Rectangle lever,door;
     private RayHandler rayHandler;
     private ConeLight horn;
-    private Cakes cupcakeObj,mangocakeObj;
-    private HarmfulItems wasteBarrel;
+    private Cake cupcakeObj,mangocakeObj;
+    private HarmfulItem wasteBarrel;
     private HUD hud;
+    private List<Cake> cakeList;
 
 
     public GameScreen(final MainLauncher game) {
@@ -55,10 +59,19 @@ public class GameScreen implements Screen {
         this.game = game;
         world = new World(new Vector2(0,0),false);
         this.world.setContactListener(new ContactHandler());
-        cupcakeObj = new Cakes(world,"CUPCAKE",8,8);
-        mangocakeObj = new Cakes(world,"MANGO",8,5);
+
+        cakeList = new ArrayList<Cake>();
+        cakeList.add(new Cake(world,"CUPCAKE",8,8));
+        cakeList.add(new Cake(world,"CUPCAKE",9,8));
+        cakeList.add(new Cake(world,"MANGO",8,5));
+        cakeList.add(new Cake(world,"MANGO",9,5));
+
+//        cakeList.add(new Cake(world,"CUPCAKE",20,20));
+//        cakeList.add(new Cake(world,"CUPCAKE",15,14));
+//        cakeList.add(new Cake(world,"CUPCAKE",5,5));
+
         pony = new Pony(world,"UNICORN",2,2);
-        wasteBarrel = new HarmfulItems(world,"WASTEBARREL",8,1.5f);
+        wasteBarrel = new HarmfulItem(world,"WASTEBARREL",8,1.5f);
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
@@ -109,7 +122,6 @@ public class GameScreen implements Screen {
         horn.setContactFilter((short)1,(short)0,(short)8);
     }
 
-
     @Override
     public void show() {
 
@@ -132,8 +144,13 @@ public class GameScreen implements Screen {
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
         game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
         //LISÄTTY if-lauseet, jotta kakut katoaa
-        if(!mangocakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, mangocakeObj.cake.getPosition().x * Scaler - 16, mangocakeObj.cake.getPosition().y * Scaler -16);
-        if(!cupcakeObj.isSetToDestroy()) game.batch.draw(cupcakeimg,cupcakeObj.cake.getPosition().x * Scaler -16,cupcakeObj.cake.getPosition().y * Scaler -16);
+        for (Cake cakeObj : cakeList){
+            if (cakeObj.id.equals("CUPCAKE")){
+                if(!cakeObj.isSetToDestroy()) game.batch.draw(cupcakeimg,cakeObj.cake.getPosition().x * Scaler -16,cakeObj.cake.getPosition().y * Scaler -16);
+            } else if (cakeObj.id.equals("MANGO")){
+                if(!cakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler -16);
+            }
+        }
         game.batch.end();
 
         //TUODAAN VALO "horn" PONILLE
@@ -185,8 +202,9 @@ public class GameScreen implements Screen {
 
         world.step(1/60f,6,2);
         //LISÄTTY if-lauseet, jotta kakut katoaa
-        if(cupcakeObj.isSetToDestroy()) cupcakeObj.cake.setActive(false);
-        if(mangocakeObj.isSetToDestroy()) mangocakeObj.cake.setActive(false);
+        for (Cake cakeObj : cakeList){
+            if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
+        }
         rayHandler.update();
         inputUpdate(delta);
         gameOver();

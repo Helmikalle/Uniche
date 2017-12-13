@@ -7,12 +7,12 @@ import main.java.uniche.utils.Skaalausta;
 import static main.java.uniche.HUD.wasteHit;
 
 
-public class HarmfulItems {
+public class HarmfulItem {
 
     public Body waste;
     public String id;
 
-    public HarmfulItems(World world, String id, float x, float y){
+    public HarmfulItem(World world, String id, float x, float y){
         this.id = id;
         createWaste(world,x,y);
 
@@ -36,7 +36,8 @@ public class HarmfulItems {
         this.waste.createFixture(fixture).setUserData(this);
     }
 
-    public void poimittu (){
+    public void wastePoimittu (){
         System.out.println("DAMaGE CONTROL");
+        wasteHit();
     }
 }

@@ -2,7 +2,8 @@ package main.java.uniche.utils;
 
 
 import com.badlogic.gdx.physics.box2d.*;
-import main.java.uniche.entities.Cakes;
+import main.java.uniche.entities.Cake;
+import main.java.uniche.entities.HarmfulItem;
 import main.java.uniche.entities.Pony;
 
 public class ContactHandler implements ContactListener {
@@ -14,18 +15,31 @@ public class ContactHandler implements ContactListener {
         if (figureA == null || figureB == null) return;
         if (figureA.getUserData() == null || figureB.getUserData() == null) return;
 
-        if (playerCollision(figureA,figureB)){
+        if (playerCollisionCake(figureA,figureB)){
             Pony unicorn;
-            Cakes cupcake;
-            if (figureA.getUserData() instanceof Cakes){
+            Cake cupcake;
+            if (figureA.getUserData() instanceof Cake){
             unicorn = (Pony) figureB.getUserData();
-            cupcake = (Cakes) figureA.getUserData();
+            cupcake = (Cake) figureA.getUserData();
         } else {
             unicorn = (Pony) figureA.getUserData();
-            cupcake = (Cakes) figureB.getUserData();
+            cupcake = (Cake) figureB.getUserData();
         }
         cupcake.poimittu();
         cupcake.kerätty();
+
+        }
+        if (playerCollisionWaste(figureA,figureB)){
+            Pony unicor;
+            HarmfulItem wasteBarrel;
+            if (figureA.getUserData() instanceof HarmfulItem){
+                unicor = (Pony) figureB.getUserData();
+                wasteBarrel = (HarmfulItem) figureA.getUserData();
+            } else {
+                unicor = (Pony) figureA.getUserData();
+                wasteBarrel = (HarmfulItem) figureB.getUserData();
+            }
+            wasteBarrel.wastePoimittu();
 
         }
     }
@@ -52,8 +66,16 @@ public class ContactHandler implements ContactListener {
 
     }
 
-    private boolean playerCollision(Fixture a, Fixture b) {
-        if (a.getUserData() instanceof Cakes || b.getUserData() instanceof Cakes) {
+    private boolean playerCollisionCake(Fixture a, Fixture b) {
+        if (a.getUserData() instanceof Cake || b.getUserData() instanceof Cake) {
+            if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean playerCollisionWaste(Fixture a, Fixture b) {
+        if (a.getUserData() instanceof HarmfulItem || b.getUserData() instanceof HarmfulItem) {
             if (a.getUserData() instanceof Pony || b.getUserData() instanceof Pony) {
                 return true;
             }
