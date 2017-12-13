@@ -30,6 +30,7 @@ import java.util.List;
 import static main.java.uniche.utils.Skaalausta.Scaler;
 
 public class GameScreen implements Screen {
+
     private static final double DEGREES_TO_RADIANS = (double) (Math.PI / 180);
     private World world;
     final MainLauncher game;
@@ -61,20 +62,25 @@ public class GameScreen implements Screen {
 
         //Kakkulista -Titta
         cakeList = new ArrayList<Cake>();
-        cakeList.add(new Cake(world, "CUPCAKE", 31, 6));
+        cakeList.add(new Cake(world, "CUPCAKE", 31, 4));
         cakeList.add(new Cake(world, "CUPCAKE", 34, 28));
         cakeList.add(new Cake(world, "MANGO", 34, 29));
         cakeList.add(new Cake(world, "MANGO", 34, 38));
-        cakeList.add(new Cake(world, "CUPCAKE", 39, 29));
+        cakeList.add(new Cake(world, "CUPCAKE", 39, 28));
         cakeList.add(new Cake(world, "CUPCAKE", 8, 30));
         cakeList.add(new Cake(world, "CUPCAKE", 47, 42));
         cakeList.add(new Cake(world, "MANGO", 2, 38));
+        cakeList.add(new Cake(world, "CUPCAKE", 19, 9));
+        cakeList.add(new Cake(world, "CUPCAKE", 6, 20));
+        cakeList.add(new Cake(world, "MANGO", 47, 37));
+        cakeList.add(new Cake(world, "MANGO", 32.5f, 15.5f));
+        cakeList.add(new Cake(world, "CUPCAKE", 47, 14.5f));
 
         //Jätetynnyrilista -Titta
         wasteList = new ArrayList<HarmfulItem>();
-        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 8, 28f));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 8, 29f));
         wasteList.add(new HarmfulItem(world, "WASTEBARREL", 30, 10f));
-        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 2, 36));
+        wasteList.add(new HarmfulItem(world, "WASTEBARREL", 2, 37));
         wasteList.add(new HarmfulItem(world, "WASTEBARREL", 37.5f, 46.5f));
         wasteList.add(new HarmfulItem(world, "WASTEBARREL", 40.5f, 46.5f));
         wasteList.add(new HarmfulItem(world, "WASTEBARREL", 38.5f, 41.5f));
@@ -84,7 +90,7 @@ public class GameScreen implements Screen {
         //Unicorn
         pony = new Pony(world, "UNICORN", 2, 2);
 
-        //OVI + KYTKIN -Kalle
+        //OVET + KYTKIMET -Kalle
         lever = new InvisLever(world, "PIILOKYTKIN1", 24.5f, 36.5f);
         doorObj = new Door(world, "ovi1", lever.lever.getPosition().x, lever.lever.getPosition().y - 1f);
         lever2 = new InvisLever(world, "PIILOKYTKIN2", 13.5f, 36.5f);
@@ -150,6 +156,7 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
+
         //WASTE -Titta
         for (HarmfulItem wasteBarrel : wasteList) {
             game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16, wasteBarrel.waste.getPosition().y * Scaler - 16);
