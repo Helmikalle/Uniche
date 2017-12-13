@@ -20,7 +20,7 @@ public class Pony {
         def.fixedRotation= true;
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(28/2/Scaler,28/2/Scaler);
+        shape.setAsBox(20/2/Scaler,20/2/Scaler);
 
         FixtureDef fixturePony = new FixtureDef();
         fixturePony.shape = shape;

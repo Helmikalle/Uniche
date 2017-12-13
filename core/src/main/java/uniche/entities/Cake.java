@@ -30,7 +30,7 @@ public class Cake {
         bdef.position.set(x,y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(10 /2/ Skaalausta.Scaler,10 /2/ Skaalausta.Scaler);
+        shape.setAsBox(15 /2/ Skaalausta.Scaler,15 /2/ Skaalausta.Scaler);
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;

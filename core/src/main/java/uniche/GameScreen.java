@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
     private static final double DEGREES_TO_RADIANS = (double)(Math.PI/180);
     private World world;
     final MainLauncher game;
-    private Texture cupcakeimg,wasteimg,mangocakeimg;
+    private Texture cupcakeimg,wasteimg,mangocakeimg,oviimg;
     private OrthographicCamera camera;
     private Pony pony;
     private Animation animation;
@@ -46,8 +46,8 @@ public class GameScreen implements Screen {
     private HUD hud;
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
-    private InvisLever lever;
-    private Door doorObj;
+    private InvisLever lever,lever2,lever3;
+    private Door doorObj,doorObj2,doorObj3;
     private Door door;
 
 
@@ -78,15 +78,19 @@ public class GameScreen implements Screen {
         pony = new Pony(world,"UNICORN",2,2);
 
         //OVI + KYTKIN
-        lever = new InvisLever(world,"PIILOKYTKIN",23.5f,24);
+        lever = new InvisLever(world,"PIILOKYTKIN1",24.5f,36.5f);
         doorObj = new Door(world,"ovi1",lever.lever.getPosition().x ,lever.lever.getPosition().y -1f);
-
+        lever2 = new InvisLever(world,"PIILOKYTKIN2",13.5f,36.5f);
+        doorObj2 = new Door(world,"ovi2",lever2.lever.getPosition().x,lever2.lever.getPosition().y-1f);
+        lever3 = new InvisLever(world,"PIILOKYTKIN3",26.5f,1.5f);
+        doorObj3 = new Door(world,"OVI3",lever3.lever.getPosition().x - 1,lever3.lever.getPosition().y);
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
         hud = new HUD();
         camera.setToOrtho(false, w, h);
 
         //Kuvan tuontia -Kalle'
+        oviimg = new Texture(Gdx.files.internal("core/assets/ovielem/ovi.png"));
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         mangocakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/mangokakku.png"));
         wasteimg = new Texture(Gdx.files.internal("core/assets/ydinjate/ydinjate.png"));
@@ -144,6 +148,15 @@ public class GameScreen implements Screen {
                 if(!cakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler -16);
             }
         }
+        if(lever.isSetToClose() || lever2.isSetToClose()||lever3.isSetToClose()) {
+            game.batch.draw(oviimg, doorObj.door.getPosition().x * Scaler - 16,
+                    doorObj.door.getPosition().y * Scaler - 16);
+            game.batch.draw(oviimg,doorObj2.door.getPosition().x * Scaler -16,
+                    doorObj2.door.getPosition().y * Scaler -16);
+            game.batch.draw(oviimg,doorObj3.door.getPosition().x * Scaler - 16,
+                    doorObj3.door.getPosition().y * Scaler -16);
+
+        }
         game.batch.end();
 
         //TUODAAN VALO "horn" PONILLE
@@ -157,6 +170,11 @@ public class GameScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         hud.stage.act();
+
+
+        //TÄSSÄ TYÖKALU jOLLA SAA TÖRMÄYSVIIVAT NÄKYVIIN
+        b2Render.render(world,camera.combined.scl(Scaler));
+
         update(Gdx.graphics.getDeltaTime());
 
     }
@@ -174,15 +192,15 @@ public class GameScreen implements Screen {
     public void update(float delta) {
 
         world.step(1/60f,6,2);
-        //Kakut katoavat poimittaessa
+        //LISÄTTY if-lauseet, jotta kakut katoaa
         for (Cake cakeObj : cakeList){
             if(cakeObj.isSetToDestroy()) cakeObj.cake.setActive(false);
         }
 
-        if(lever.isSetToClose()) {
-            doorObj.door.setActive(true);
+        if(lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
+            doorObj.door.setActive(true); doorObj2.door.setActive(true); doorObj3.door.setActive(true);
         }else{
-            doorObj.door.setActive(false);
+            doorObj.door.setActive(false);doorObj2.door.setActive(false);doorObj3.door.setActive(false);
         }
         rayHandler.update();
         inputUpdate(delta);
@@ -261,7 +279,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         b2Render.dispose();
         world.dispose();
-//        game.batch.dispose();
         tmr.dispose();
         tiledMap.dispose();
         rayHandler.dispose();
