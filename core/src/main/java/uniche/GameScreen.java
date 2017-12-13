@@ -47,10 +47,9 @@ public class GameScreen implements Screen {
     private Rectangle lever,door;
     private RayHandler rayHandler;
     private ConeLight horn;
-    private Cake cupcakeObj,mangocakeObj;
-    private HarmfulItem wasteBarrel;
     private HUD hud;
     private List<Cake> cakeList;
+    private List<HarmfulItem> wasteList;
 
 
     public GameScreen(final MainLauncher game) {
@@ -60,6 +59,7 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0,0),false);
         this.world.setContactListener(new ContactHandler());
 
+        //Kakkulista
         cakeList = new ArrayList<Cake>();
         cakeList.add(new Cake(world,"CUPCAKE",8,8));
         cakeList.add(new Cake(world,"CUPCAKE",9,8));
@@ -70,8 +70,13 @@ public class GameScreen implements Screen {
 //        cakeList.add(new Cake(world,"CUPCAKE",15,14));
 //        cakeList.add(new Cake(world,"CUPCAKE",5,5));
 
+        //Jätetynnyrilista
+        wasteList = new ArrayList<HarmfulItem>();
+        wasteList.add(new HarmfulItem(world,"WASTEBARREL",8,1.5f));
+        wasteList.add(new HarmfulItem(world,"WASTEBARREL",9,1.5f));
+
+        //Unicorn
         pony = new Pony(world,"UNICORN",2,2);
-        wasteBarrel = new HarmfulItem(world,"WASTEBARREL",8,1.5f);
 
         b2Render = new Box2DDebugRenderer();
         camera = new OrthographicCamera();
@@ -97,7 +102,6 @@ public class GameScreen implements Screen {
         TiledKartta.parseTiledMap(world,tiledMap.getLayers()
                 .get("objektit").getObjects());
 
-
         lever = new Rectangle();
         lever.x = 300;
         lever.y = 150;
@@ -109,7 +113,6 @@ public class GameScreen implements Screen {
         door.y = 150;
         door.width = 32/2;
         door.height = 32/2;
-
 
         //TÄMÄ TUO HIMMENNYKSEN
         rayHandler = new RayHandler(world);
@@ -142,8 +145,10 @@ public class GameScreen implements Screen {
         game.batch.begin();
 
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
-        game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
-        //LISÄTTY if-lauseet, jotta kakut katoaa
+        for (HarmfulItem wasteBarrel : wasteList){
+            game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
+        }
+
         for (Cake cakeObj : cakeList){
             if (cakeObj.id.equals("CUPCAKE")){
                 if(!cakeObj.isSetToDestroy()) game.batch.draw(cupcakeimg,cakeObj.cake.getPosition().x * Scaler -16,cakeObj.cake.getPosition().y * Scaler -16);
@@ -166,26 +171,6 @@ public class GameScreen implements Screen {
         hud.stage.act();
         update(Gdx.graphics.getDeltaTime());
 
-        //TÄSTÄ SAA COLLISION LAYERIT NÄKYMÄÄN
-//        b2Render.render(world,camera.combined.scl(Scaler));
-
-        // kysely random kuppikakuista ei tule itse peliin - Kalle
-        //MUTTA täällä myös healthbarin ja cupcakeCounterin toiminnallisuus - Titta
-        //Pistin vähän lisää healthbariin elämää :D ja lisäsin toiminnallisuuden
-        // et joka keystrokesta lähtee elämää -Kalle
-//        if (TimeUtils.nanoTime() - lastDropTime > 1000000000 && i < 3) spawnRaindrop();
-//        Iterator<Body> iter = raindrops.iterator();
-//        while (iter.hasNext()) {
-//            Body raindrop = iter.next();
-//            if (raindrop.overlaps(pony)) {
-//                iter.remove();
-//                cupcakeCounter += 5;
-//                healthBar = healthBar + 100;0
-//                if (healthBar <= 0) {
-//                    game.setScreen(new GameOverScreen(game));
-//                }
-//            }
-//        }
     }
 
     //Kamera seuraa ponia -Kalle
@@ -289,19 +274,6 @@ public class GameScreen implements Screen {
 
 
     }
-    //Kytkimen painaminen  -Titta
-//    private void leverChange(){
-//        if (lever.(pony)){
-//            exitLevel = true;
-//        }
-//    }
-//
-//    //Tason päättyminen -Titta
-//    private void completeLevel(){
-//        if (door.overlaps(pony) && exitLevel == true){
-//            game.setScreen(new NextLevelScreen(game));
-//        }
-//    }
 
     //Peli loppuu ja siirtyy "Game over"-näkymään, jos health bar tyhjenee -Titta
     private void gameOver(){
@@ -314,25 +286,5 @@ public class GameScreen implements Screen {
             game.setScreen(new MainMenuScreen(game));
         }
     }
-
-    //Asetettu rajat ettei poni mene ulos ruudusta  -Kalle
-    // Laitoin omaan metodiin -Titta
-//    private void setBorders(){
-//        if (pony.x < 16) pony.x = 16;
-//        if (pony.x > 800-32 ) pony.x = 800 - 32;
-//        if (pony.y < 16 ) pony.y = 16;
-//        if (pony.y > 480 - 200) pony.y = 480 - 200;
-//
-//    }
-    //Randomina spawnaa kuppikakkua ympäriinsä. Ei tule itse peliin -Kalle
-//    private void spawnRaindrop() {
-//        Body raindrop = new Body();
-//        raindrop.x = MathUtils.random(0, 800 - 150);
-//        raindrop.y = MathUtils.random(0, 480 - 200);
-//        raindrop.width = 32;
-//        raindrop.height = 32;
-//        raindrops.add(raindrop);
-//        lastDropTime = TimeUtils.nanoTime();
-//    }
 
 }
