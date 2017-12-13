@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
     private static final double DEGREES_TO_RADIANS = (double)(Math.PI/180);
     private World world;
     final MainLauncher game;
-    private Texture cupcakeimg,wasteimg,mangocakeimg,oviimg;
+    private Texture cupcakeimg,wasteimg,mangocakeimg,oviimg,kytkinimg;
     private OrthographicCamera camera;
     private Pony pony;
     private Animation animation;
@@ -84,7 +84,7 @@ public class GameScreen implements Screen {
         doorObj2 = new Door(world,"ovi2",lever2.lever.getPosition().x,lever2.lever.getPosition().y-1f);
         lever3 = new InvisLever(world,"PIILOKYTKIN3",26.5f,1.5f);
         doorObj3 = new Door(world,"OVI3",lever3.lever.getPosition().x - 1,lever3.lever.getPosition().y);
-        stageLever = new InvisLever(world,"AKTIVOISTAGECOMPLETE" , 9,43);
+        stageLever = new InvisLever(world,"AKTIVOISTAGECOMPLETE" , 39,45.5f);
         stageComplete = new InvisLever(world,"TASOLÄPÄISTY",13.9f,49.3f);
 
         b2Render = new Box2DDebugRenderer();
@@ -93,6 +93,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, w, h);
 
         //Kuvan tuontia -Kalle'
+        kytkinimg = new Texture(Gdx.files.internal("core/assets/kytkin/kytkin2.png"));
         oviimg = new Texture(Gdx.files.internal("core/assets/ovielem/ovi.png"));
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         mangocakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/mangokakku.png"));
@@ -140,10 +141,11 @@ public class GameScreen implements Screen {
         game.batch.begin();
 
         //TÄSSÄ REGOIVAT/POIMITTAVAT KAKUT + JÄTETYNNYRI
+        //WASTE -Titta
         for (HarmfulItem wasteBarrel : wasteList){
             game.batch.draw(wasteimg, wasteBarrel.waste.getPosition().x * Scaler - 16,wasteBarrel.waste.getPosition().y * Scaler -16);
         }
-
+        //KAKUT -Titta
         for (Cake cakeObj : cakeList){
             if (cakeObj.id.equals("CUPCAKE")){
                 if(!cakeObj.isSetToDestroy()) game.batch.draw(cupcakeimg,cakeObj.cake.getPosition().x * Scaler -16,cakeObj.cake.getPosition().y * Scaler -16);
@@ -151,6 +153,7 @@ public class GameScreen implements Screen {
                 if(!cakeObj.isSetToDestroy()) game.batch.draw(mangocakeimg, cakeObj.cake.getPosition().x * Scaler - 16, cakeObj.cake.getPosition().y * Scaler -16);
             }
         }
+        //TÄSSÄ TUODAAN OVET KUN KÄVELLÄÄN LÄPI OVIAUKOSTA -Kalle
         if(lever.isSetToClose() || lever2.isSetToClose()||lever3.isSetToClose()) {
             game.batch.draw(oviimg, doorObj.door.getPosition().x * Scaler - 16,
                     doorObj.door.getPosition().y * Scaler - 16);
@@ -160,6 +163,7 @@ public class GameScreen implements Screen {
                     doorObj3.door.getPosition().y * Scaler -16);
 
         }
+        game.batch.draw(kytkinimg,stageLever.lever.getPosition().x * Scaler -14,stageLever.lever.getPosition().y * Scaler -14);
         game.batch.end();
 
         //TUODAAN VALO "horn" PONILLE
@@ -176,7 +180,7 @@ public class GameScreen implements Screen {
 
 
         //TÄSSÄ TYÖKALU jOLLA SAA TÖRMÄYSVIIVAT NÄKYVIIN
-        b2Render.render(world,camera.combined.scl(Scaler));
+//        b2Render.render(world,camera.combined.scl(Scaler));
 
         update(Gdx.graphics.getDeltaTime());
 

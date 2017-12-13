@@ -27,7 +27,7 @@ public class InvisLever {
         bdef.position.set(x, y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(32 / 2 / Skaalausta.Scaler, 32 / 2 / Skaalausta.Scaler);
+        shape.setAsBox(28 / 2 / Skaalausta.Scaler, 28 / 2 / Skaalausta.Scaler);
 
         FixtureDef fixture = new FixtureDef();
         fixture.shape = shape;
