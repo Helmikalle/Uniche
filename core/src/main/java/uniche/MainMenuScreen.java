@@ -6,13 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.awt.*;
 
 //Menu-luokka
 public class MainMenuScreen implements Screen {
     final MainLauncher game;
+    private Stage stage;
     OrthographicCamera camera;
     Texture cupcakeimg;
     private int currentOption = 0;
@@ -20,6 +24,8 @@ public class MainMenuScreen implements Screen {
             "START",
             "QUIT"};
     private ShapeRenderer shapeRenderer;
+    //private Skin skin;
+
     //private float progress;
 
 //liikutaan menussa käyttänen nuolinpääimiä ja viereen kuppikakkukuva
@@ -33,21 +39,29 @@ public class MainMenuScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
-        queueAssets();
-    }
-    private void queueAssets() {
-        game.assets.load("core/assets/logo/uusiunichee(1).png", Texture.class);
     }
 
     @Override
     public void show() {
+        /*Gdx.input.setInputProcessor(stage);
+
+        this.skin = new Skin();
+        this.skin.addRegions(new TextureAtlas(Gdx.files.internal("core/assets/skins/uiskin.atlas")));
+        this.skin.add("default-font", game.font22);
+        this.skin.load(Gdx.files.internal("core/assets/skins/uiskin.json"));
+
+        inintButtons();*/
+
+
 
     }
 
     public void update(float delta) {
+
         if (game.assets.update()) {
             game.setScreen(new LogoScreen(game));
         }
+
         //progress = game.assets.getProgress();
     }
 
@@ -64,17 +78,21 @@ public class MainMenuScreen implements Screen {
 
         game.batch.begin();
         changeOption();
-        game.font22.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
+        game.font36.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
         game.font22.draw(game.batch, "START", 390, 250);
         game.font22.draw(game.batch, "QUIT", 395, 200);
         game.batch.end();
     }
 
     public void changeOption(){
-        if(currentOption == 0){
+        if(currentOption == 0) {
             game.batch.draw(cupcakeimg, 340, 235);
-        } else if (currentOption == 1){
-            game.batch.draw(cupcakeimg, 340, 185);
+        }
+        if (currentOption == 1) {
+            game.batch.draw(cupcakeimg,340, 185);
+
+        } else if (currentOption == 2){
+            game.batch.draw(cupcakeimg, 340, 135);
         }
     }
     //Mahdollistetaan valinnanmuutos ja itse valinta
@@ -82,6 +100,7 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && currentOption < options.length - 1) {
             currentOption++;
         }
+
         if(Gdx.input.isKeyPressed(Input.Keys.UP) && currentOption > 0) {
             currentOption--;
         }
@@ -94,6 +113,7 @@ public class MainMenuScreen implements Screen {
         if(currentOption == 0) {
             game.setScreen(new GameScreen(game));
         }
+
         if(currentOption == 1) {
             System.exit(0);
         }
@@ -125,4 +145,7 @@ public class MainMenuScreen implements Screen {
         shapeRenderer.dispose();
 
     }
+    /*private void inintButtons() {
+
+    }*/
 }

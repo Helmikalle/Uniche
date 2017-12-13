@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.compression.rangecoder.BitTreeEncoder;
 
 
 public class MainLauncher extends Game {
     public SpriteBatch batch;
     public BitmapFont font22;
+    public BitmapFont font36;
     public AssetManager assets;
 
     public LogoScreen logoScreen;
@@ -40,6 +42,7 @@ public class MainLauncher extends Game {
     public void dispose() {
         batch.dispose();
         font22.dispose();
+        font36.dispose();
         assets.dispose();
         this.getScreen().dispose();
     }
@@ -50,6 +53,12 @@ public class MainLauncher extends Game {
         parametri.size = 22;
         parametri.color = Color.GOLDENROD;
         font22 = generator.generateFont(parametri);
+
+        FreeTypeFontGenerator.FreeTypeFontParameter otsikot = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        otsikot.size = 36;
+        otsikot.color = Color.GOLD;
+        font36 = generator.generateFont(otsikot);
+
 
     }
 
