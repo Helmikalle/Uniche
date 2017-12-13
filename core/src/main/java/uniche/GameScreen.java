@@ -120,7 +120,7 @@ public class GameScreen implements Screen {
         TiledKartta.parseTiledMap(world, tiledMap.getLayers()
                 .get("objektit").getObjects());
 
-        //TÄMÄ TUO HIMMENNYKSEN -Kalle
+        //TÄMÄ TUO HIMMENNYKSEN + valon käsittelijän -Kalle
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.1f);
 
