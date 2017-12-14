@@ -3,6 +3,7 @@ package main.java.uniche;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,14 +25,15 @@ public class LogoScreen implements Screen {
     private Stage stage;
     private Image splashImg;
     private int valinta;
+    public static Music music;
 
     public LogoScreen (final MainLauncher game) {
         this.game = game;
         this.stage = new Stage();
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
         // sallitaan input-eventit, seurataan, mitä aktorit saavat (key, touch yms). -sonja
         Gdx.input.setInputProcessor(stage);
-
+        music.stop();
         Texture splashTex = new Texture(Gdx.files.internal("core/assets/logo/uusiunichee(1).png"));
         splashImg = new Image(splashTex);
         splashImg.setOrigin(splashImg.getWidth() / 2, splashImg.getHeight() / 2);
@@ -99,6 +101,7 @@ public class LogoScreen implements Screen {
     public void valinta() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+//            music.play();
             game.setScreen(new MainMenuScreen(game));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -130,6 +133,7 @@ public class LogoScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        music.dispose();
 
 
     }

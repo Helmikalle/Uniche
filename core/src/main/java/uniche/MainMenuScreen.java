@@ -3,6 +3,7 @@ package main.java.uniche;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,6 +20,7 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     OrthographicCamera camera;
     Texture cupcakeimg;
+    private Music music;
     private int currentOption = 0;
     private String[] options = {
             "START",
@@ -34,7 +36,8 @@ public class MainMenuScreen implements Screen {
         this.shapeRenderer = new ShapeRenderer();
         //this.progress = 0f;
 
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
+        music.play();
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
@@ -111,6 +114,7 @@ public class MainMenuScreen implements Screen {
     //Valinnan aiheuttama tapahtuma
     public void selectOption() {
         if(currentOption == 0) {
+            music.stop();
             game.setScreen(new GameScreen(game));
         }
 
@@ -143,6 +147,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        music.dispose();
 
     }
     /*private void inintButtons() {

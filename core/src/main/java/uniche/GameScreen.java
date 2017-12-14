@@ -6,6 +6,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -51,6 +52,7 @@ public class GameScreen implements Screen {
     private List<HarmfulItem> wasteList;
     private InvisLever lever, lever2, lever3, stageLever, stageComplete;
     private Door doorObj, doorObj2, doorObj3;
+    private Music music;
 
 
     public GameScreen(final MainLauncher game) {
@@ -59,6 +61,8 @@ public class GameScreen implements Screen {
         this.game = game;
         world = new World(new Vector2(0, 0), false);
         this.world.setContactListener(new ContactHandler());
+        music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/Visager_-_24_-_Witchs_Hut_Loop.mp3"));
+        music.play();
 
         //Kakkulista -Titta
         cakeList = new ArrayList<Cake>();
@@ -326,6 +330,7 @@ public class GameScreen implements Screen {
         tmr.dispose();
         tiledMap.dispose();
         rayHandler.dispose();
+        music.dispose();
 
 
     }
@@ -333,6 +338,7 @@ public class GameScreen implements Screen {
     //Peli loppuu ja siirtyy "Game over"-näkymään, jos health bar tyhjenee -Titta
     private void gameOver() {
         if (hud.getHealth() <= 0) {
+            music.stop();
             game.setScreen(new GameOverScreen(game));
         }
     }
@@ -340,6 +346,7 @@ public class GameScreen implements Screen {
     //Peli voidaan keskeyttää painamalla esc:iä -Titta
     private void exitGame() {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            music.stop();
             game.setScreen(new MainMenuScreen(game));
         }
     }

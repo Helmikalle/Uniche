@@ -3,6 +3,7 @@ package main.java.uniche;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +13,8 @@ public class GameOverScreen implements Screen {
 
     final MainLauncher game;
     OrthographicCamera camera;
-    Texture cupcakeimg;
+    private Texture cupcakeimg;
+    private Music music;
     private int currentOption = 0;
     private String[] options = {
             "START",
@@ -22,6 +24,8 @@ public class GameOverScreen implements Screen {
         this.game = game;
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         camera = new OrthographicCamera();
+        music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
+        music.play();
         camera.setToOrtho(false, 800, 480);
 
     }
@@ -72,6 +76,7 @@ public class GameOverScreen implements Screen {
 
     public void selectOption() {
         if(currentOption == 0) {
+            music.stop();
             game.setScreen(new GameScreen(game));
         }
         if(currentOption == 1) {
@@ -101,6 +106,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
+        music.dispose();
 
     }
 }
