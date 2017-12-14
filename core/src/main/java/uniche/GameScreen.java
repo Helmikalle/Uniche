@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
     private TiledMap tiledMap;
     private RayHandler rayHandler;
     private ConeLight horn;
-    private PointLight leverLight;
+    private PointLight leverLight,gateLight;
     private HUD hud;
     private List<Cake> cakeList;
     private List<HarmfulItem> wasteList;
@@ -140,8 +140,9 @@ public class GameScreen implements Screen {
         horn.attachToBody(pony.pony);
         horn.setContactFilter((short) 1, (short) 0, (short) 8);
 
-        //stageLeverin VALO -Kalle
+        //stageLeverin sekä stageeComplete VALO -Kalle
         leverLight = new PointLight(rayHandler, 120, Color.RED, 1, stageLever.lever.getPosition().x + .05f, stageLever.lever.getPosition().y);
+        gateLight =new PointLight(rayHandler,120,Color.GREEN,1,stageComplete.lever.getPosition().x - .4f,stageComplete.lever.getPosition().y);
     }
 
     @Override
