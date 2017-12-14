@@ -15,19 +15,15 @@ public class MainLauncher extends Game {
     public BitmapFont font22;
     public BitmapFont font36;
     public AssetManager assets;
-
     public LogoScreen logoScreen;
     public MainMenuScreen mainMenuScreen;
 
 
     public void create() {
-        assets = new AssetManager();
+        assets = new AssetManager(); //Assetsmanager ei täyssillä käytössä -sonja
         batch = new SpriteBatch();
 
         initFonts();
-
-        //font = new BitmapFont();
-        //font.setColor(Color.BLACK);
 
         logoScreen = new LogoScreen(this);
         mainMenuScreen = new MainMenuScreen(this);
@@ -39,6 +35,8 @@ public class MainLauncher extends Game {
         super.render();
     }
 
+
+//muistetaan laittaa disposeen kaikki, jotta pelin pelaaminen olisi miellyttävämpää -sonja
     public void dispose() {
         batch.dispose();
         font22.dispose();
@@ -46,17 +44,19 @@ public class MainLauncher extends Game {
         assets.dispose();
         this.getScreen().dispose();
     }
-    //lisätään omat fontit peliin ja asetetaan niille parametrit, näitä voi kutsua Bitmappina pelin läpi
+    //lisätään omat fontit peliin ja asetetaan niille parametrit, näitä voi kutsua Bitmappina pelin läpi -sonja
+    //päivitetty Gradlen dependency, jotta freetype-fontit toimisivat -sonja
     private void initFonts() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/fonts/LilitaOne-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parametri = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parametri.size = 22;
-        parametri.color = Color.GOLDENROD;
+        parametri.color = Color.BLACK;
         font22 = generator.generateFont(parametri);
 
+        // generoidaan otsikkofontti isommaksi -sonja
         FreeTypeFontGenerator.FreeTypeFontParameter otsikot = new FreeTypeFontGenerator.FreeTypeFontParameter();
         otsikot.size = 36;
-        otsikot.color = Color.GOLD;
+        otsikot.color = Color.BLACK;
         font36 = generator.generateFont(otsikot);
 
 

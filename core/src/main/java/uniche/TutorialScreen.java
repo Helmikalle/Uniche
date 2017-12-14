@@ -32,7 +32,7 @@ public class TutorialScreen implements Screen{
         music.play();
         music.setLooping(true);
 
-        Texture splashTex = new Texture(Gdx.files.internal("core/assets/tutorial/THIS IS UNICHE.tHE MOST AMAZING GAME YOU WILL PLAY THIS YEAR. (3).png"));
+        Texture splashTex = new Texture(Gdx.files.internal("core/assets/tutorial/unichetutorial.png"));
         tutoriaalikuva = new Image(splashTex);
         tutoriaalikuva.setOrigin(tutoriaalikuva.getWidth() / 2, tutoriaalikuva.getHeight() / 2);
         stage.addActor(tutoriaalikuva);

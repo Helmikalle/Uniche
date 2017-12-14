@@ -59,23 +59,26 @@ public class MainMenuScreen implements Screen {
     //piiretään menuun valintanäppäimet
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(102/255f, 4/255f, 4/255f, 1f);
+        Gdx.gl.glClearColor(227/255f, 151/255f, 198/255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
         handleInput();
         game.batch.setProjectionMatrix(camera.combined);
 
+        //lisätään valikkoon nökyvät vaihtoehtoja -sonja
         game.batch.begin();
         changeOption();
         game.font36.draw(game.batch, "CHERNOBYL UNICORN ", 225, 300);
         game.font22.draw(game.batch, "START", 390, 250);
         game.font22.draw(game.batch, "TUTORIAL", 395, 200);
         game.font22.draw(game.batch, "QUIT", 400, 150);
+        game.font22.draw(game.batch," UNICHE STUDIOS 2017", 40,40);
         game.batch.end();
     }
 
     public void changeOption() {
+        //lisätään valikkoon kuppukakulla liikkuminen ylös ja alas -sonja
         if (currentOption == 0) {
             game.batch.draw(cupcakeimg, 340, 235);
 
@@ -91,7 +94,7 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && currentOption < options.length - 1) {
             currentOption++;
         }
-//muistetaan käyttää isKeyJustPressed, koska muuten joudutaan jakamaan millisekunneiksi
+//muistetaan käyttää isKeyJustPressed, koska muuten joudutaan jakamaan millisekunneiksi -sonja
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && currentOption > 0) {
             currentOption--;
         }
@@ -139,6 +142,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        // muistetaan disposata kaikki, jotta pelaaminen mukavampaa - sonja
         shapeRenderer.dispose();
         music.dispose();
 

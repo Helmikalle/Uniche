@@ -18,7 +18,8 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
-
+//tehdään luokka, josta peli alkaa
+//esitetään uniche-logo ja tuodaan se animaatiolla eteepäin -sonja
 public class LogoScreen implements Screen {
 
     MainLauncher game;
@@ -30,27 +31,32 @@ public class LogoScreen implements Screen {
     public LogoScreen (final MainLauncher game) {
         this.game = game;
         this.stage = new Stage();
+
         music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
+        music.stop();
+
         // sallitaan input-eventit, seurataan, mitä aktorit saavat (key, touch yms). -sonja
         Gdx.input.setInputProcessor(stage);
-        music.stop();
-        Texture splashTex = new Texture(Gdx.files.internal("core/assets/logo/uusiunichee(1).png"));
+
+        //lisätään uniche logo aloitusnäytölle -sonja
+        Texture splashTex = new Texture(Gdx.files.internal("core/assets/logo/uusiunichee(2).png"));
         splashImg = new Image(splashTex);
         splashImg.setOrigin(splashImg.getWidth() / 2, splashImg.getHeight() / 2);
         stage.addActor(splashImg);
 
         queueAssets();
 
-
     }
     private void queueAssets() {
-        game.assets.load("core/assets/logo/uusiunichee(1).png", Texture.class);
+        //ladataan logo assets-managerin kautta -sonja
+        game.assets.load("core/assets/logo/uusiunichee(2).png", Texture.class);
     }
 
     @Override
     public void show() {
-        System.out.println("Show"); //testataan, toimiiko metodi
+        //System.out.println("Show"); testataan, toimiiko metodi -sonja
 
+        //lisätään runnable metodi -sonja
         Runnable transitio = new Runnable() {
             @Override
             public void run() {
@@ -58,6 +64,7 @@ public class LogoScreen implements Screen {
 
             }
         };
+        //luodaan kuvalle animaatio ja käytetään runnablee smoothiin sivusiirtymiseen -sonja
         splashImg.setPosition(stage.getWidth() /2 -128, stage.getHeight() / 2 + 128);
         splashImg.addAction(sequence(alpha(0), scaleTo(1f,1f),
                 parallel(fadeIn(3f, Interpolation.pow2), scaleTo(2f,2f,2.5f, Interpolation.pow5),
@@ -65,48 +72,28 @@ public class LogoScreen implements Screen {
                 delay(1.5f), fadeOut(1.25f), run(transitio)));
 
 
-        //luodaan kuvalle fading-animaatin -sonja
-       // splashImg.addAction(sequence(alpha(0f), parallel(moveBy(100,-20,5f), fadeIn(6f))));
-        // splashImg.addAction(fadeIn(3f));
-
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(102/255f, 4/255f, 4/255f, 1f); // glClearColor käyttää värejä asteikolla 0-1, joten kaikki RGB värit pitää jakaa 255:llä -sonja
+        Gdx.gl.glClearColor(227/255f, 151/255f, 198/255f, 1f); // glClearColor käyttää värejä asteikolla 0-1, joten kaikki RGB värit pitää jakaa 255:llä -sonja
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
-        valinta();
         stage.draw();
 
-        //aina beginin ja endin väliin! -sonja
+
+        //piirrettävä sisältö aina beginin ja endin väliin! -sonja
 
         game.batch.begin();
-        game.font22.draw(game.batch," UNICHE STUDIOS", 40,40);
+        game.font22.draw(game.batch,"UNICHE STUDIOS 2017", 40,40);
         game.font22.draw(game.batch, "LOADING...", 40,60);
-       // app.font.draw(app.batch, "PRESS ESC TO EXIT THE GAME", 320,120);
-
         game.batch.end();
 
     }
     public void update (float delta) {
         stage.act(delta); //lisää kaikki actit, joita stagella on -sonja
     }
-
-
-    //Siirrytään päävalikkoon Space-barilla tai suljetaan peli -sonja
-
-    public void valinta() {
-
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new MainMenuScreen(game));
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            System.exit(0);
-        }
-    }
-
 
     @Override
     public void resize(int width, int height) {
