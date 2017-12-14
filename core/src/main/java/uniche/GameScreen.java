@@ -80,6 +80,12 @@ public class GameScreen implements Screen {
         cakeList.add(new Cake(world, "MANGO", 47, 37));
         cakeList.add(new Cake(world, "MANGO", 32.5f, 15.5f));
         cakeList.add(new Cake(world, "CUPCAKE", 47, 14.5f));
+        cakeList.add(new Cake(world, "MANGO", 11f, 44f));
+        cakeList.add(new Cake(world, "CUPCAKE", 8, 9.5f));
+        cakeList.add(new Cake(world, "CUPCAKE", 41, 21f));
+        cakeList.add(new Cake(world, "CUPCAKE", 38, 5f));
+        cakeList.add(new Cake(world, "MANGO", 33f, 9.5f));
+
 
         //Jätetynnyrilista -Titta
         wasteList = new ArrayList<HarmfulItem>();
