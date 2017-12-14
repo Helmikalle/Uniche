@@ -45,7 +45,6 @@ public class LogoScreen implements Screen {
     }
     private void queueAssets() {
         game.assets.load("core/assets/logo/uusiunichee(1).png", Texture.class);
-        game.assets.load("core/assets/skins/uiskin.atlas", TextureAtlas.class);
     }
 
     @Override

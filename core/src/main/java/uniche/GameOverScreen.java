@@ -38,7 +38,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0, 0.1f, 1);
+        Gdx.gl.glClearColor(102/255f, 4/255f, 4/255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -47,7 +47,7 @@ public class GameOverScreen implements Screen {
 
         game.batch.begin();
 
-        game.font22.draw(game.batch, "GAME OVER", 335, 300);
+        game.font36.draw(game.batch, "GAME OVER", 305, 300);
         game.font22.draw(game.batch, "NEW GAME", 390, 250);
         game.font22.draw(game.batch, "QUIT", 395, 200);
         changeOption();

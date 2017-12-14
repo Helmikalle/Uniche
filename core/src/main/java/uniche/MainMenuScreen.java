@@ -20,26 +20,26 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     OrthographicCamera camera;
     Texture cupcakeimg;
-    private Music music;
+    private static Music music;
     private int currentOption = 0;
     private String[] options = {
             "START",
+            "TUTORIAL",
             "QUIT"};
     private ShapeRenderer shapeRenderer;
-    //private Skin skin;
 
-    //private float progress;
 
 //liikutaan menussa käyttänen nuolinpääimiä ja viereen kuppikakkukuva
     public MainMenuScreen(final MainLauncher game) {
         this.game = game;
         this.shapeRenderer = new ShapeRenderer();
-        //this.progress = 0f;
 
         music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
         music.play();
         music.setLooping(true);
+
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
@@ -47,28 +47,14 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        /*Gdx.input.setInputProcessor(stage);
-
-        this.skin = new Skin();
-        this.skin.addRegions(new TextureAtlas(Gdx.files.internal("core/assets/skins/uiskin.atlas")));
-        this.skin.add("default-font", game.font22);
-        this.skin.load(Gdx.files.internal("core/assets/skins/uiskin.json"));
-
-        inintButtons();*/
-
-
 
     }
 
     public void update(float delta) {
-
         if (game.assets.update()) {
             game.setScreen(new LogoScreen(game));
         }
-
-        //progress = game.assets.getProgress();
     }
-
 
     //piiretään menuun valintanäppäimet
     @Override
@@ -82,30 +68,31 @@ public class MainMenuScreen implements Screen {
 
         game.batch.begin();
         changeOption();
-        game.font36.draw(game.batch, "CHERNOBYL UNICORN ", 335, 300);
+        game.font36.draw(game.batch, "CHERNOBYL UNICORN ", 225, 300);
         game.font22.draw(game.batch, "START", 390, 250);
-        game.font22.draw(game.batch, "QUIT", 395, 200);
+        game.font22.draw(game.batch, "TUTORIAL", 395, 200);
+        game.font22.draw(game.batch, "QUIT", 400, 150);
         game.batch.end();
     }
 
-    public void changeOption(){
-        if(currentOption == 0) {
+    public void changeOption() {
+        if (currentOption == 0) {
             game.batch.draw(cupcakeimg, 340, 235);
-        }
-        if (currentOption == 1) {
+
+        } if (currentOption == 1) {
             game.batch.draw(cupcakeimg,340, 185);
 
-        } else if (currentOption == 2){
+        } if (currentOption == 2) {
             game.batch.draw(cupcakeimg, 340, 135);
         }
     }
     //Mahdollistetaan valinnanmuutos ja itse valinta
     public void handleInput() {
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && currentOption < options.length - 1) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && currentOption < options.length - 1) {
             currentOption++;
         }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.UP) && currentOption > 0) {
+//muistetaan käyttää isKeyJustPressed, koska muuten joudutaan jakamaan millisekunneiksi
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && currentOption > 0) {
             currentOption--;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
@@ -120,6 +107,10 @@ public class MainMenuScreen implements Screen {
         }
 
         if(currentOption == 1) {
+            game.setScreen(new TutorialScreen(game));
+        }
+
+        if(currentOption == 2) {
             System.exit(0);
         }
     }
@@ -151,7 +142,5 @@ public class MainMenuScreen implements Screen {
         music.dispose();
 
     }
-    /*private void inintButtons() {
 
-    }*/
 }

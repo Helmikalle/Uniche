@@ -48,7 +48,7 @@ public class MainLauncher extends Game {
     }
     //lisätään omat fontit peliin ja asetetaan niille parametrit, näitä voi kutsua Bitmappina pelin läpi
     private void initFonts() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/fonts/pixel dead.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("core/assets/fonts/LilitaOne-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parametri = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parametri.size = 22;
         parametri.color = Color.GOLDENROD;

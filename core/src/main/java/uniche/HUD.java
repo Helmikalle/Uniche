@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+
 //HUD (head-up display) tai "Status Bar"
 public class HUD {
     public Stage stage;
@@ -21,6 +22,7 @@ public class HUD {
     private static int cupCakeCounter;
     private static int mangoCounter;
     private static int health;
+
 
     private static Label cupCakeCounterLabel;
     private static Label healthLabel;
@@ -39,6 +41,7 @@ public class HUD {
         Table table = new Table();
         table.top();
         table.setFillParent(true);
+
 
         cupCakeCounterLabel = new Label(String.format("%02d", cupCakeCounter), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         mangoLabel = new Label(String.format("%02d", mangoCounter), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
