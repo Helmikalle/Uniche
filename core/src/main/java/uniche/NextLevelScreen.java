@@ -50,7 +50,7 @@ public class NextLevelScreen implements Screen {
 
         game.batch.begin();
         changeOption();
-        game.font36.draw(game.batch, "LEVEL COMPLETED! ", 305, 330);
+        game.font36.draw(game.batch, "LEVEL COMPLETED! ", 265, 330);
         game.font22.draw(game.batch, "NEXT LEVEL", 365, 250);
         game.font22.draw(game.batch, "QUIT", 365, 200);
         game.batch.end();
