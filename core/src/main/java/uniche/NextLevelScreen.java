@@ -3,6 +3,7 @@ package main.java.uniche;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +16,7 @@ public class NextLevelScreen implements Screen {
     final MainLauncher game;
     OrthographicCamera camera;
     Texture cupcakeimg;
+    private Music music;
     private int currentOption = 0;
     private String[] options = {
             "START",
@@ -26,6 +28,10 @@ public class NextLevelScreen implements Screen {
         cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/mathgrant_-_19_-_Space_Blocks.mp3"));
+        music.play();
+        music.setLooping(true);
     }
 
     @Override
@@ -35,7 +41,7 @@ public class NextLevelScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0, 0.1f, 1);
+        Gdx.gl.glClearColor(227/255f, 151/255f, 198/255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -44,17 +50,17 @@ public class NextLevelScreen implements Screen {
 
         game.batch.begin();
         changeOption();
-        game.font22.draw(game.batch, "LEVEL COMPLETED! ", 335, 350);
-        game.font22.draw(game.batch, "START NEXT LEVEL", 390, 250);
-        game.font22.draw(game.batch, "QUIT", 395, 200);
+        game.font36.draw(game.batch, "LEVEL COMPLETED! ", 305, 330);
+        game.font22.draw(game.batch, "NEXT LEVEL", 365, 250);
+        game.font22.draw(game.batch, "QUIT", 365, 200);
         game.batch.end();
     }
 
     public void changeOption(){
         if(currentOption == 0){
-            game.batch.draw(cupcakeimg, 340, 235);
+            game.batch.draw(cupcakeimg, 325, 231);
         } else if (currentOption == 1){
-            game.batch.draw(cupcakeimg, 340, 185);
+            game.batch.draw(cupcakeimg, 325, 181);
         }
     }
     //Mahdollistetaan valinnanmuutos ja itse valinta
@@ -72,6 +78,7 @@ public class NextLevelScreen implements Screen {
     //Valinnan aiheuttama tapahtuma
     public void selectOption() {
         if(currentOption == 0) {
+            music.stop();
             game.setScreen(new GameScreen(game));
         }
         if(currentOption == 1) {

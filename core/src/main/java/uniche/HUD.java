@@ -31,7 +31,7 @@ public class HUD {
     public HUD(){
         cupCakeCounter = 0;
         mangoCounter = 0;
-        health = 40;
+        health = 10000;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         viewport = new FitViewport(w/2, h/2, new OrthographicCamera());

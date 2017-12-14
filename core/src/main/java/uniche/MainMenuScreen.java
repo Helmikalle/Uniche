@@ -20,7 +20,7 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     OrthographicCamera camera;
     Texture cupcakeimg;
-    private static Music music;
+    private Music music;
     private int currentOption = 0;
     private String[] options = {
             "START",
@@ -28,21 +28,17 @@ public class MainMenuScreen implements Screen {
             "QUIT"};
     private ShapeRenderer shapeRenderer;
 
-
 //liikutaan menussa käyttänen nuolinpääimiä ja viereen kuppikakkukuva
     public MainMenuScreen(final MainLauncher game) {
         this.game = game;
         this.shapeRenderer = new ShapeRenderer();
+        cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
 
         music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
         music.play();
         music.setLooping(true);
-
-        cupcakeimg = new Texture(Gdx.files.internal("core/assets/kakkukuvia/kuppikakku.png"));
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
-
     }
 
     @Override

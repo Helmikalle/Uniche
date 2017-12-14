@@ -239,7 +239,8 @@ public class GameScreen implements Screen {
         }
         //TASO LÄPI GoodGame -KAlle
         if (stageComplete.isSetToClose()) {
-            game.setScreen(new GameOverScreen(game));
+            music.stop();
+            game.setScreen(new NextLevelScreen(game));
         }
         //ENSIMMÄINEN OSA KARTTAA SULJETTU JOS MENEE TIETYISTÄ OVISTA LÄPI -Kalle
         if (lever.isSetToClose() || lever2.isSetToClose() || lever3.isSetToClose()) {
