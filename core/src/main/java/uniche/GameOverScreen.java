@@ -26,6 +26,7 @@ public class GameOverScreen implements Screen {
         camera = new OrthographicCamera();
         music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
         music.play();
+        music.setLooping(true);
         camera.setToOrtho(false, 800, 480);
 
     }

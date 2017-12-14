@@ -63,6 +63,7 @@ public class GameScreen implements Screen {
         this.world.setContactListener(new ContactHandler());
         music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/Visager_-_24_-_Witchs_Hut_Loop.mp3"));
         music.play();
+        music.setLooping(true);
 
         //Kakkulista -Titta
         cakeList = new ArrayList<Cake>();

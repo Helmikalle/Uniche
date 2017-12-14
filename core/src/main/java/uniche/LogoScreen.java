@@ -101,7 +101,6 @@ public class LogoScreen implements Screen {
     public void valinta() {
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-//            music.play();
             game.setScreen(new MainMenuScreen(game));
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
