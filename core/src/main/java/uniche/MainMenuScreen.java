@@ -107,6 +107,7 @@ public class MainMenuScreen implements Screen {
         }
 
         if(currentOption == 1) {
+            music.stop();
             game.setScreen(new TutorialScreen(game));
         }
 

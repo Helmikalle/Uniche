@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+//import static main.java.uniche.LogoScreen.music;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 //tehdään tutorialscreeni, joka käyttää kuvaa tuotoriaalina -sonja
@@ -20,20 +21,21 @@ public class TutorialScreen implements Screen{
     MainLauncher game;
     private Stage stage;
     private Image tutoriaalikuva;
-
+    private Music music;
 
     public TutorialScreen (final MainLauncher game) {
         this.game = game;
         this.stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("core/assets/musiikki/rolemusi_-_05_-_05_rolemusic_-_the_black_frame.mp3"));
+        music.play();
+        music.setLooping(true);
 
         Texture splashTex = new Texture(Gdx.files.internal("core/assets/tutorial/THIS IS UNICHE.tHE MOST AMAZING GAME YOU WILL PLAY THIS YEAR. (3).png"));
         tutoriaalikuva = new Image(splashTex);
         tutoriaalikuva.setOrigin(tutoriaalikuva.getWidth() / 2, tutoriaalikuva.getHeight() / 2);
         stage.addActor(tutoriaalikuva);
-
     }
 
     @Override
@@ -57,6 +59,7 @@ public class TutorialScreen implements Screen{
 
     public void valinta() {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            music.stop();
             game.setScreen(new MainMenuScreen(game));
         }
     }
@@ -85,5 +88,6 @@ public class TutorialScreen implements Screen{
     @Override
     public void dispose() {
         stage.dispose();
+        music.dispose();
     }
 }
