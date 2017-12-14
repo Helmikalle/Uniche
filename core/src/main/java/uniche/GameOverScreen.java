@@ -40,7 +40,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(102/255f, 4/255f, 4/255f, 1f);
+        Gdx.gl.glClearColor(227/255f, 151/255f, 198/255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -49,9 +49,9 @@ public class GameOverScreen implements Screen {
 
         game.batch.begin();
 
-        game.font36.draw(game.batch, "GAME OVER", 305, 300);
-        game.font22.draw(game.batch, "NEW GAME", 390, 250);
-        game.font22.draw(game.batch, "QUIT", 395, 200);
+        game.font36.draw(game.batch, "GAME OVER", 305, 330);
+        game.font22.draw(game.batch, "NEW GAME", 375, 250);
+        game.font22.draw(game.batch, "QUIT", 375, 200);
         changeOption();
 
         game.batch.end();
@@ -59,9 +59,9 @@ public class GameOverScreen implements Screen {
 
     public void changeOption(){
         if(currentOption == 0){
-            game.batch.draw(cupcakeimg, 340, 235);
+            game.batch.draw(cupcakeimg, 335, 231);
         } else if (currentOption == 1){
-            game.batch.draw(cupcakeimg, 340, 185);
+            game.batch.draw(cupcakeimg, 335, 181);
         }
     }
 

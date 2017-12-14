@@ -69,10 +69,10 @@ public class MainMenuScreen implements Screen {
         //lisätään valikkoon nökyvät vaihtoehtoja -sonja
         game.batch.begin();
         changeOption();
-        game.font36.draw(game.batch, "CHERNOBYL UNICORN ", 225, 300);
-        game.font22.draw(game.batch, "START", 390, 250);
-        game.font22.draw(game.batch, "TUTORIAL", 395, 200);
-        game.font22.draw(game.batch, "QUIT", 400, 150);
+        game.font36.draw(game.batch, "CHERNOBYL UNICORN ", 225, 330);
+        game.font22.draw(game.batch, "START", 375, 250);
+        game.font22.draw(game.batch, "TUTORIAL", 375, 200);
+        game.font22.draw(game.batch, "QUIT", 375, 150);
         game.font22.draw(game.batch," UNICHE STUDIOS 2017", 40,40);
         game.batch.end();
     }
@@ -80,13 +80,13 @@ public class MainMenuScreen implements Screen {
     public void changeOption() {
         //lisätään valikkoon kuppukakulla liikkuminen ylös ja alas -sonja
         if (currentOption == 0) {
-            game.batch.draw(cupcakeimg, 340, 235);
+            game.batch.draw(cupcakeimg, 335, 231);
 
         } if (currentOption == 1) {
-            game.batch.draw(cupcakeimg,340, 185);
+            game.batch.draw(cupcakeimg,335, 181);
 
         } if (currentOption == 2) {
-            game.batch.draw(cupcakeimg, 340, 135);
+            game.batch.draw(cupcakeimg, 335, 131);
         }
     }
     //Mahdollistetaan valinnanmuutos ja itse valinta
