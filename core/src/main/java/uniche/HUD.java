@@ -31,7 +31,7 @@ public class HUD {
     public HUD(){
         cupCakeCounter = 0;
         mangoCounter = 0;
-        health = 10000;
+        health = 5000;
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         viewport = new FitViewport(w/2, h/2, new OrthographicCamera());
@@ -73,14 +73,14 @@ public class HUD {
     public static void addCupcake(){
         cupCakeCounter++;
         cupCakeCounterLabel.setText(String.format("%02d", cupCakeCounter));
-        health += 150;
+        health += 200;
         healthLabel.setText(String.format("%02d", health));
     }
     //Kerätään mangokakku
     public static void addMango(){
         mangoCounter++;
         mangoLabel.setText(String.format("%02d", mangoCounter));
-        health += 300;
+        health += 400;
         healthLabel.setText(String.format("%02d", health));
     }
     //Heikennetään terveyttä kävellessä
